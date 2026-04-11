@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  min-height: 100%;
+  background:
+    radial-gradient(circle at top, rgba(168, 85, 247, 0.18), transparent 28%),
+    radial-gradient(circle at bottom, rgba(34, 197, 94, 0.12), transparent 26%),
+    #020617;
+}
+
+body {
+  min-height: 100vh;
+  color: #f8fafc;
+  background: transparent;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.card-enter {
+  animation: card-enter 280ms ease-out;
+}
+
+@keyframes card-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
