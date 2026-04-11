@@ -2,15 +2,6 @@ import type { Celebrity } from '@/types/celebrity';
 
 export const italianCelebrities: Celebrity[] = [
   {
-    id: 'achille-lauro',
-    name: 'Achille Lauro',
-    bornYear: 1990,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Achille Lauro (cantante)',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Achille%20Lauro%20Venezia.jpg?width=400'
-  },
-  {
     id: 'adriano-celentano',
     name: 'Adriano Celentano',
     bornYear: 1938,
@@ -20,13 +11,13 @@ export const italianCelebrities: Celebrity[] = [
     imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Adriano%20Celentano%201970.png?width=400'
   },
   {
-    id: 'alberto-angela',
-    name: 'Alberto Angela',
-    bornYear: 1962,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Alberto Angela',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Alberto%20Angela.jpg?width=400'
+    id: 'afrika-bambaataa',
+    name: 'Afrika Bambaataa',
+    bornYear: 1957,
+    diedYear: 2026,
+    isAlive: false,
+    wikipediaTitle: 'Afrika Bambaataa',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Afrika%20Bambaataa%202009%20IMG%208349%20(cropped).jpg?width=400'
   },
   {
     id: 'alberto-castagna',
@@ -74,112 +65,76 @@ export const italianCelebrities: Celebrity[] = [
     imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Alessandro%20Borghi%20at%20Berlinale%202024.jpg?width=400'
   },
   {
-    id: 'alessandro-del-piero',
-    name: 'Alessandro Del Piero',
-    bornYear: 1974,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Alessandro Del Piero',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Alessandro%20Del%20Piero%2C%20New%20York%20NY%202015.jpg?width=400'
+    id: 'alice-kessler',
+    name: 'Alice Kessler',
+    bornYear: 1936,
+    diedYear: 2025,
+    isAlive: false,
+    wikipediaTitle: 'Alice Kessler',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Alice%20Kessler%20-%20cropped%20from%20Kessler%20Zwillinge.jpg?width=400'
   },
   {
-    id: 'alessia-marcuzzi',
-    name: 'Alessia Marcuzzi',
-    bornYear: 1972,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Alessia Marcuzzi',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Alessia%20Marcuzzi%20Funweek.it%202025.png?width=400'
+    id: 'angela-lansbury',
+    name: 'Angela Lansbury',
+    bornYear: 1925,
+    diedYear: 2022,
+    isAlive: false,
+    wikipediaTitle: 'Angela Lansbury',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Angela%20Lansbury%201966.jpg?width=400'
   },
   {
-    id: 'amadeus',
-    name: 'Amadeus',
-    bornYear: 1962,
+    id: 'anjelica-huston',
+    name: 'Anjelica Huston',
+    bornYear: 1951,
     diedYear: null,
     isAlive: true,
-    wikipediaTitle: 'Amadeus (conduttore televisivo)',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Amadeus%202023.jpg?width=400'
+    wikipediaTitle: 'Anjelica Huston',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Anjelica%20Huston%20at%20Los%20Angeles%20Comic%20Con%202024.jpg?width=400'
   },
   {
-    id: 'andrea-pirlo',
-    name: 'Andrea Pirlo',
-    bornYear: 1979,
+    id: 'annie-lennox',
+    name: 'Annie Lennox',
+    bornYear: 1954,
     diedYear: null,
     isAlive: true,
-    wikipediaTitle: 'Andrea Pirlo',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/20150616%20-%20Portugal%20-%20Italie%20-%20Gen%C3%A8ve%20-%20Andrea%20Pirlo%20(cropped).jpg?width=400'
+    wikipediaTitle: 'Annie Lennox',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/The%20river%20of%20Borgvik.jpg?width=400'
   },
   {
-    id: 'annalisa',
-    name: 'Annalisa',
-    bornYear: 1985,
+    id: 'barbara-de-rossi',
+    name: 'Barbara De Rossi',
+    bornYear: 1960,
     diedYear: null,
     isAlive: true,
-    wikipediaTitle: 'Annalisa (cantante)',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Annalisa%20mentre%20canta%20Stelle%20in%20uno%20showcase%20di%20RDS.jpg?width=400'
+    wikipediaTitle: 'Barbara De Rossi',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Barbara%20de%20Rossi%2003.jpg?width=400'
   },
   {
-    id: 'antonella-clerici',
-    name: 'Antonella Clerici',
-    bornYear: 1963,
+    id: 'billy-idol',
+    name: 'Billy Idol',
+    bornYear: 1955,
     diedYear: null,
     isAlive: true,
-    wikipediaTitle: 'Antonella Clerici',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Antonella%20Clerici%20(cropped).jpg?width=400'
+    wikipediaTitle: 'Billy Idol',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Billy%20Idol%20Lucca%202023.jpg?width=400'
   },
   {
-    id: 'antonio-conte',
-    name: 'Antonio Conte',
-    bornYear: 1969,
+    id: 'bridget-fonda',
+    name: 'Bridget Fonda',
+    bornYear: 1964,
     diedYear: null,
     isAlive: true,
-    wikipediaTitle: 'Antonio Conte',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/20150616%20Antonio%20Conte.jpg?width=400'
+    wikipediaTitle: 'Bridget Fonda',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Bridget%20Fonda.jpg?width=400'
   },
   {
-    id: 'arisa',
-    name: 'Arisa',
-    bornYear: 1982,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Arisa',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Arisa%20concerto%20Taormina%2008-2025.jpg?width=400'
-  },
-  {
-    id: 'asia-argento',
-    name: 'Asia Argento',
-    bornYear: 1975,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Asia Argento',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Asia%20Argento%20in%202019.jpg?width=400'
-  },
-  {
-    id: 'barbara-d-urso',
-    name: 'Barbara D’Urso',
-    bornYear: 1957,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Barbara D\'Urso',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Barbara%20D\'Urso.jpg?width=400'
-  },
-  {
-    id: 'beppe-grillo',
-    name: 'Beppe Grillo',
-    bornYear: 1948,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Beppe Grillo',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Beppe%20Grillo%20a%20San%20giovanni%20in%20laterano%2023%20maggio%202014%202.JPG?width=400'
-  },
-  {
-    id: 'blanco',
-    name: 'Blanco',
-    bornYear: 2003,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Blanco (cantante)',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Blanco%20during%20an%20interview%20for%20Radio%20Bruno%20in%202022.png?width=400'
+    id: 'brigitte-bardot',
+    name: 'Brigitte Bardot',
+    bornYear: 1934,
+    diedYear: 2025,
+    isAlive: false,
+    wikipediaTitle: 'Brigitte Bardot',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Brigitte%20Bardot%20-%201962.jpg?width=400'
   },
   {
     id: 'bruno-arena',
@@ -200,31 +155,31 @@ export const italianCelebrities: Celebrity[] = [
     imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Bud%20Spencer%201974.png?width=400'
   },
   {
-    id: 'carlo-conti',
-    name: 'Carlo Conti',
-    bornYear: 1961,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Carlo Conti (conduttore televisivo)',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Carlo%20Conti%20al%20Festival%20di%20Sanremo%202026%20(headshot).jpg?width=400'
+    id: 'carlo-mazzacurati',
+    name: 'Carlo Mazzacurati',
+    bornYear: 1956,
+    diedYear: 2014,
+    isAlive: false,
+    wikipediaTitle: 'Carlo Mazzacurati',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Carlo%20Mazzacurati.jpg?width=400'
   },
   {
-    id: 'checco-zalone',
-    name: 'Checco Zalone',
-    bornYear: 1977,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Checco Zalone',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Checco%20Zalone.jpg?width=400'
+    id: 'catherine-anne-o-hara',
+    name: 'Catherine Anne O’Hara',
+    bornYear: 1954,
+    diedYear: 2026,
+    isAlive: false,
+    wikipediaTitle: 'Catherine O\'Hara',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/CATHERINE%20OHARA.jpg?width=400'
   },
   {
-    id: 'christian-de-sica',
-    name: 'Christian De Sica',
-    bornYear: 1951,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Christian De Sica',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Christian%20De%20Sica.jpg?width=400'
+    id: 'chuck-norris',
+    name: 'Chuck Norris',
+    bornYear: 1940,
+    diedYear: 2026,
+    isAlive: false,
+    wikipediaTitle: 'Chuck Norris',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Chuck%20Norris%20May%202015.jpg?width=400'
   },
   {
     id: 'claudia-cardinale',
@@ -236,13 +191,13 @@ export const italianCelebrities: Celebrity[] = [
     imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Claudia%20Cardinale%201963.jpg?width=400'
   },
   {
-    id: 'claudio-marchisio',
-    name: 'Claudio Marchisio',
-    bornYear: 1986,
+    id: 'clint-eastwood',
+    name: 'Clint Eastwood',
+    bornYear: 1930,
     diedYear: null,
     isAlive: true,
-    wikipediaTitle: 'Claudio Marchisio',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Claudio%20Marchisio%2C%202019%20(cropped).jpg?width=400'
+    wikipediaTitle: 'Clint Eastwood',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Clint%20Eastwood%20at%202010%20New%20York%20Film%20Festival.jpg?width=400'
   },
   {
     id: 'corrado',
@@ -263,13 +218,40 @@ export const italianCelebrities: Celebrity[] = [
     imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Corrado%20Augias%2C%20Pietrasanta%202.jpg?width=400'
   },
   {
-    id: 'dario-fo',
-    name: 'Dario Fo',
-    bornYear: 1926,
-    diedYear: 2016,
+    id: 'david-hasselhoff',
+    name: 'David Hasselhoff',
+    bornYear: 1952,
+    diedYear: null,
+    isAlive: true,
+    wikipediaTitle: 'David Hasselhoff',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/David%20Hasselhoff%202013.jpg?width=400'
+  },
+  {
+    id: 'david-sassoli',
+    name: 'David Sassoli',
+    bornYear: 1956,
+    diedYear: 2022,
     isAlive: false,
-    wikipediaTitle: 'Dario Fo',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Dario%20Fo%2C%20Italian%20playwright.jpg?width=400'
+    wikipediaTitle: 'David Sassoli',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Official%20portrait%20of%20David%20Sassoli%2C%20president%20of%20the%20European%20Parliament.jpg?width=400'
+  },
+  {
+    id: 'dennis-rodman',
+    name: 'Dennis Rodman',
+    bornYear: 1961,
+    diedYear: null,
+    isAlive: true,
+    wikipediaTitle: 'Dennis Rodman',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Dennis%20Rodman%20ToPo.jpg?width=400'
+  },
+  {
+    id: 'dick-van-dyke',
+    name: 'Dick Van Dyke',
+    bornYear: 1925,
+    diedYear: null,
+    isAlive: true,
+    wikipediaTitle: 'Dick Van Dyke',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Dick%20Van%20Dyke%20May%202024.jpg?width=400'
   },
   {
     id: 'diego-abatantuono',
@@ -290,13 +272,22 @@ export const italianCelebrities: Celebrity[] = [
     imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Diego%20Della%20Valle.jpg?width=400'
   },
   {
-    id: 'diodato',
-    name: 'Diodato',
-    bornYear: 1981,
+    id: 'dolores-o-riordan',
+    name: 'Dolores O’Riordan',
+    bornYear: 1971,
+    diedYear: 2018,
+    isAlive: false,
+    wikipediaTitle: 'Dolores O\'Riordan',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Dolores%20O\'Riordan%202016%20(cropped).jpeg?width=400'
+  },
+  {
+    id: 'edwige-fenech',
+    name: 'Edwige Fenech',
+    bornYear: 1948,
     diedYear: null,
     isAlive: true,
-    wikipediaTitle: 'Diodato (cantante)',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Diodato%20RadioBruno%20Festival%20di%20Sanremo%202024.png?width=400'
+    wikipediaTitle: 'Edwige Fenech',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Edwige%20Fenech%20-%20%E2%80%9CLa%20signora%20gioca%20bene%20a%20scopa%E2%80%9D%20(1974).jpg?width=400'
   },
   {
     id: 'eleonora-giorgi',
@@ -306,24 +297,6 @@ export const italianCelebrities: Celebrity[] = [
     isAlive: false,
     wikipediaTitle: 'Eleonora Giorgi',
     imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Eleonora%20Giorgi%2075.jpg?width=400'
-  },
-  {
-    id: 'elisa',
-    name: 'Elisa',
-    bornYear: 1977,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Elisa (cantante 1977)',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Elisa%20(Feb%202019).png?width=400'
-  },
-  {
-    id: 'emma-marrone',
-    name: 'Emma Marrone',
-    bornYear: 1984,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Emma Marrone',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Emma%20(Oct%202023)%20(cropped).png?width=400'
   },
   {
     id: 'ennio-fantastichini',
@@ -344,22 +317,22 @@ export const italianCelebrities: Celebrity[] = [
     imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Ennio%20Morricone%20Cannes%202007.jpg?width=400'
   },
   {
-    id: 'eros-ramazzotti',
-    name: 'Eros Ramazzotti',
+    id: 'enzo-salvi',
+    name: 'Enzo Salvi',
     bornYear: 1963,
     diedYear: null,
     isAlive: true,
-    wikipediaTitle: 'Eros Ramazzotti',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Eros%20Ramazzotti%20(21738687382)%20(cropped).jpg?width=400'
+    wikipediaTitle: 'Enzo Salvi',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Enzo-salvi.png?width=400'
   },
   {
-    id: 'fabio-cannavaro',
-    name: 'Fabio Cannavaro',
-    bornYear: 1973,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Fabio Cannavaro',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Fabio%20Cannavaro%202011.jpg?width=400'
+    id: 'ezio-bosso',
+    name: 'Ezio Bosso',
+    bornYear: 1971,
+    diedYear: 2020,
+    isAlive: false,
+    wikipediaTitle: 'Ezio Bosso',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Concverto%20per%20la%20terra.jpg?width=400'
   },
   {
     id: 'fabrizio-frizzi',
@@ -371,49 +344,13 @@ export const italianCelebrities: Celebrity[] = [
     imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Fabrizio%20Frizzi%20Rete8%202016.png?width=400'
   },
   {
-    id: 'federica-pellegrini',
-    name: 'Federica Pellegrini',
-    bornYear: 1988,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Federica Pellegrini',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Federica%20Pellegrini%20e%20Luca%20Marin%20(cropped).jpg?width=400'
-  },
-  {
-    id: 'fedez',
-    name: 'Fedez',
-    bornYear: 1989,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Fedez',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Fedez%20(Feb%202025).png?width=400'
-  },
-  {
-    id: 'fiorello',
-    name: 'Fiorello',
-    bornYear: 1960,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Fiorello',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Fiorello.jpg?width=400'
-  },
-  {
-    id: 'flavio-insinna',
-    name: 'Flavio Insinna',
-    bornYear: 1965,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Flavio Insinna',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Flavio%20Insinna%202022%20(cropped).jpg?width=400'
-  },
-  {
-    id: 'francesco-totti',
-    name: 'Francesco Totti',
-    bornYear: 1976,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Francesco Totti',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Francesco%20Totti%20Vicario%20(crop).jpg?width=400'
+    id: 'felix-baumgartner',
+    name: 'Felix Baumgartner',
+    bornYear: 1969,
+    diedYear: 2025,
+    isAlive: false,
+    wikipediaTitle: 'Felix Baumgartner',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/12.%20Internationale%20Sportnacht%20Davos%202014%20(15409745296)%20(cropped).jpg?width=400'
   },
   {
     id: 'franco-battiato',
@@ -425,6 +362,15 @@ export const italianCelebrities: Celebrity[] = [
     imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Franco%20Battiato%20-%2023%20July%202010%20-%2005%20(cropped).jpg?width=400'
   },
   {
+    id: 'franco-frattini',
+    name: 'Franco Frattini',
+    bornYear: 1957,
+    diedYear: 2022,
+    isAlive: false,
+    wikipediaTitle: 'Franco Frattini',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Franco%20Frattini%202012.jpg?width=400'
+  },
+  {
     id: 'gabriel-garko',
     name: 'Gabriel Garko',
     bornYear: 1972,
@@ -434,22 +380,49 @@ export const italianCelebrities: Celebrity[] = [
     imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Gabriel%20Garko.jpg?width=400'
   },
   {
-    id: 'gennaro-gattuso',
-    name: 'Gennaro Gattuso',
-    bornYear: 1978,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Gennaro Gattuso',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Gennaro%20Gattuso%202008.jpg?width=400'
+    id: 'gary-coleman',
+    name: 'Gary Coleman',
+    bornYear: 1968,
+    diedYear: 2010,
+    isAlive: false,
+    wikipediaTitle: 'Gary Coleman',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/GaryColemanE3May05.jpg?width=400'
   },
   {
-    id: 'gerry-scotti',
-    name: 'Gerry Scotti',
-    bornYear: 1956,
+    id: 'gene-hackman',
+    name: 'Gene Hackman',
+    bornYear: 1930,
+    diedYear: 2025,
+    isAlive: false,
+    wikipediaTitle: 'Gene Hackman',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Gene%20Hackman%20-%201972.jpg?width=400'
+  },
+  {
+    id: 'george-foreman',
+    name: 'George Foreman',
+    bornYear: 1949,
+    diedYear: 2025,
+    isAlive: false,
+    wikipediaTitle: 'George Foreman',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/George%20Foreman%20(1973).jpg?width=400'
+  },
+  {
+    id: 'george-w-bush',
+    name: 'George W Bush',
+    bornYear: 1946,
     diedYear: null,
     isAlive: true,
-    wikipediaTitle: 'Gerry Scotti',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Gerry%20Scotti%202010.jpg?width=400'
+    wikipediaTitle: 'George W. Bush',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/George-W-Bush.jpeg?width=400'
+  },
+  {
+    id: 'giancarlo-giannini',
+    name: 'Giancarlo Giannini',
+    bornYear: 1942,
+    diedYear: null,
+    isAlive: true,
+    wikipediaTitle: 'Giancarlo Giannini',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Giancarlo%20Giannini.jpg?width=400'
   },
   {
     id: 'gianluca-vialli',
@@ -459,24 +432,6 @@ export const italianCelebrities: Celebrity[] = [
     isAlive: false,
     wikipediaTitle: 'Gianluca Vialli',
     imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Gianluca%20Vialli.jpg?width=400'
-  },
-  {
-    id: 'gianluigi-buffon',
-    name: 'Gianluigi Buffon',
-    bornYear: 1978,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Gianluigi Buffon',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Gianluigi%20Buffon%20(31784615942)%20(cropped).jpg?width=400'
-  },
-  {
-    id: 'gianni-agnelli',
-    name: 'Gianni Agnelli',
-    bornYear: 1921,
-    diedYear: 2003,
-    isAlive: false,
-    wikipediaTitle: 'Gianni Agnelli',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Gianni%20Agnelli%2001%20(cropped).jpg?width=400'
   },
   {
     id: 'gianni-morandi',
@@ -497,58 +452,130 @@ export const italianCelebrities: Celebrity[] = [
     imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/La%20tosca%20proietti.png?width=400'
   },
   {
-    id: 'giorgia',
-    name: 'Giorgia',
-    bornYear: 1971,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Giorgia (cantante 1971)',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Giorgia%20(Feb%202025%3B%202).png?width=400'
-  },
-  {
-    id: 'giorgia-meloni',
-    name: 'Giorgia Meloni',
-    bornYear: 1977,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Giorgia Meloni',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Giorgia%20Meloni%20Official%202024%20(cropped).jpg?width=400'
-  },
-  {
-    id: 'ilary-blasi',
-    name: 'Ilary Blasi',
-    bornYear: 1981,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Ilary Blasi',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Ilary%20Blasi%20(cropped).jpg?width=400'
-  },
-  {
-    id: 'indro-montanelli',
-    name: 'Indro Montanelli',
-    bornYear: 1909,
-    diedYear: 2001,
+    id: 'gina-lollobrigida',
+    name: 'Gina Lollobrigida',
+    bornYear: 1927,
+    diedYear: 2023,
     isAlive: false,
-    wikipediaTitle: 'Indro Montanelli',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Indro%20Montanelli%202.jpg?width=400'
+    wikipediaTitle: 'Gina Lollobrigida',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Gina%20Lollobrigida%20-%20Publicity%20still%20(1956).png?width=400'
   },
   {
-    id: 'jannik-sinner',
-    name: 'Jannik Sinner',
-    bornYear: 2001,
+    id: 'giobbe-covatta',
+    name: 'Giobbe Covatta',
+    bornYear: 1956,
     diedYear: null,
     isAlive: true,
-    wikipediaTitle: 'Jannik Sinner',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Jannik%20Sinner%20US%20Open%202025%20(cropped).jpg?width=400'
+    wikipediaTitle: 'Giobbe Covatta',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Giobbe%20Covatta.jpg?width=400'
   },
   {
-    id: 'jovanotti',
-    name: 'Jovanotti',
-    bornYear: 1966,
+    id: 'giorgio-forattini',
+    name: 'Giorgio Forattini',
+    bornYear: 1931,
+    diedYear: 2025,
+    isAlive: false,
+    wikipediaTitle: 'Giorgio Forattini',
+    imageUrl: null
+  },
+  {
+    id: 'giulio-scarpati',
+    name: 'Giulio Scarpati',
+    bornYear: 1956,
     diedYear: null,
     isAlive: true,
-    wikipediaTitle: 'Jovanotti',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Jovanotti%20cropped.jpg?width=400'
+    wikipediaTitle: 'Giulio Scarpati',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Giulio%20Scarpati.jpg?width=400'
+  },
+  {
+    id: 'hulk-hogan',
+    name: 'Hulk Hogan',
+    bornYear: 1953,
+    diedYear: 2025,
+    isAlive: false,
+    wikipediaTitle: 'Hulk Hogan',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Hulk%20Hogan%2C%20circa%201985.jpg?width=400'
+  },
+  {
+    id: 'irene-cara',
+    name: 'Irene Cara',
+    bornYear: 1959,
+    diedYear: 2022,
+    isAlive: false,
+    wikipediaTitle: 'Irene Cara',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Irene%20Cara%20(1987%20Elektra%20publicity%20photo)%20(cropped).jpg?width=400'
+  },
+  {
+    id: 'ivana-trump',
+    name: 'Ivana Trump',
+    bornYear: 1949,
+    diedYear: 2022,
+    isAlive: false,
+    wikipediaTitle: 'Ivana Trump',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Ivana%20Trump%20cropped%20retouched.jpg?width=400'
+  },
+  {
+    id: 'ivano-fossati',
+    name: 'Ivano Fossati',
+    bornYear: 1951,
+    diedYear: null,
+    isAlive: true,
+    wikipediaTitle: 'Ivano Fossati',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Ivano%20Fossati%20in%20Milan.jpg?width=400'
+  },
+  {
+    id: 'j-k-rowling',
+    name: 'J. K. Rowling',
+    bornYear: 1965,
+    diedYear: null,
+    isAlive: true,
+    wikipediaTitle: 'J. K. Rowling',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/J.%20K.%20Rowling%202010.jpg?width=400'
+  },
+  {
+    id: 'jack-nicholson',
+    name: 'Jack Nicholson',
+    bornYear: 1937,
+    diedYear: null,
+    isAlive: true,
+    wikipediaTitle: 'Jack Nicholson',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Jack%20Nicholson%202001.jpg?width=400'
+  },
+  {
+    id: 'james-van-der-beek',
+    name: 'James Van der Beek',
+    bornYear: 1977,
+    diedYear: 2026,
+    isAlive: false,
+    wikipediaTitle: 'James Van Der Beek',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/JamesVanDerBeekSept2013TIFF.jpg?width=400'
+  },
+  {
+    id: 'jean-claude-van-damme',
+    name: 'Jean-Claude Van Damme',
+    bornYear: 1960,
+    diedYear: null,
+    isAlive: true,
+    wikipediaTitle: 'Jean-Claude Van Damme',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Van%20Damme%20Cannes%202010%20(cropped).jpg?width=400'
+  },
+  {
+    id: 'jean-luc-godard',
+    name: 'Jean-Luc Godard',
+    bornYear: 1930,
+    diedYear: 2022,
+    isAlive: false,
+    wikipediaTitle: 'Jean-Luc Godard',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Jean-Luc%20Godard%20at%20Berkeley%2C%201968.jpg?width=400'
+  },
+  {
+    id: 'jeff-beck',
+    name: 'Jeff Beck',
+    bornYear: 1944,
+    diedYear: 2023,
+    isAlive: false,
+    wikipediaTitle: 'Jeff Beck',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Jeff%20Beck.jpg?width=400'
   },
   {
     id: 'kim-rossi-stuart',
@@ -560,40 +587,31 @@ export const italianCelebrities: Celebrity[] = [
     imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Kim%20Rossi%20Stuart%20FCI%20Tokyo.jpg?width=400'
   },
   {
-    id: 'laura-pausini',
-    name: 'Laura Pausini',
-    bornYear: 1974,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Laura Pausini',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Laura%20Pausini%20a%20Sanremo%202026%20(headshot).jpg?width=400'
+    id: 'kobe-bryant',
+    name: 'Kobe Bryant',
+    bornYear: 1978,
+    diedYear: 2020,
+    isAlive: false,
+    wikipediaTitle: 'Kobe Bryant',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Kobe%20Bryant%202015.jpg?width=400'
   },
   {
-    id: 'ligabue',
-    name: 'Ligabue',
-    bornYear: 1960,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Luciano Ligabue',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Luciano%20Ligabue%2C%20portrait%2C%20october%202012.jpg?width=400'
+    id: 'lando-buzzanca',
+    name: 'Lando Buzzanca',
+    bornYear: 1935,
+    diedYear: 2022,
+    isAlive: false,
+    wikipediaTitle: 'Lando Buzzanca',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Lando%20Buzzanca%20cropped.jpg?width=400'
   },
   {
-    id: 'lilli-gruber',
-    name: 'Lilli Gruber',
-    bornYear: 1957,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Lilli Gruber',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/1658245018965%2020040714%20GRUBER%20001%20MOBILE.jpg?width=400'
-  },
-  {
-    id: 'luca-cordero-di-montezemolo',
-    name: 'Luca Cordero di Montezemolo',
-    bornYear: 1947,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Luca Cordero di Montezemolo',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Fiat%20Luca%20cordero%20di%20Montezemolo.jpg?width=400'
+    id: 'liam-payne',
+    name: 'Liam Payne',
+    bornYear: 1993,
+    diedYear: 2024,
+    isAlive: false,
+    wikipediaTitle: 'Liam Payne',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Liam%20Payne%20for%20UNICEF%202023.png?width=400'
   },
   {
     id: 'luca-zingaretti',
@@ -605,76 +623,40 @@ export const italianCelebrities: Celebrity[] = [
     imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Luca%20Zingaretti%202010.JPG?width=400'
   },
   {
-    id: 'luciano-spalletti',
-    name: 'Luciano Spalletti',
+    id: 'lucia-bose',
+    name: 'Lucia Bosè',
+    bornYear: 1931,
+    diedYear: 2020,
+    isAlive: false,
+    wikipediaTitle: 'Lucia Bosè',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Accadde%20al%20commissariato%2016%20(cropped).jpg?width=400'
+  },
+  {
+    id: 'maggie-smith',
+    name: 'Maggie Smith',
+    bornYear: 1934,
+    diedYear: 2024,
+    isAlive: false,
+    wikipediaTitle: 'Maggie Smith',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Maggie%20Smith%20-%20Vintage%20(trim).jpg?width=400'
+  },
+  {
+    id: 'magic-johnson',
+    name: 'Magic Johnson',
     bornYear: 1959,
     diedYear: null,
     isAlive: true,
-    wikipediaTitle: 'Luciano Spalletti',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Luciano%20Spalletti%202024.jpg?width=400'
+    wikipediaTitle: 'Magic Johnson',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Magic%20Johnson%20at%20SXSW%202022%20(51958828669)%20(cropped).jpg?width=400'
   },
   {
-    id: 'lucio-battisti',
-    name: 'Lucio Battisti',
-    bornYear: 1943,
-    diedYear: 1998,
-    isAlive: false,
-    wikipediaTitle: 'Lucio Battisti',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Sanremo%201969%20Lucio%20Battisti.jpg?width=400'
-  },
-  {
-    id: 'lucio-dalla',
-    name: 'Lucio Dalla',
-    bornYear: 1943,
-    diedYear: 2012,
-    isAlive: false,
-    wikipediaTitle: 'Lucio Dalla',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Lucio%20Dalla%201.JPG?width=400'
-  },
-  {
-    id: 'mahmood',
-    name: 'Mahmood',
-    bornYear: 1992,
+    id: 'marco-tardelli',
+    name: 'Marco Tardelli',
+    bornYear: 1954,
     diedYear: null,
     isAlive: true,
-    wikipediaTitle: 'Mahmood',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Mahmood%20(Feb%202024%3B%2002)%20(cropped).png?width=400'
-  },
-  {
-    id: 'marcello-mastroianni',
-    name: 'Marcello Mastroianni',
-    bornYear: 1924,
-    diedYear: 1996,
-    isAlive: false,
-    wikipediaTitle: 'Marcello Mastroianni',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Marcello%20Mastroianni%2002.jpg?width=400'
-  },
-  {
-    id: 'marco-mengoni',
-    name: 'Marco Mengoni',
-    bornYear: 1988,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Marco Mengoni',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Daniele%20Magro%20con%20Marco%20Mengoni%20in%20studio%20nel%202021%20(cropped).jpg?width=400'
-  },
-  {
-    id: 'marco-pantani',
-    name: 'Marco Pantani',
-    bornYear: 1970,
-    diedYear: 2004,
-    isAlive: false,
-    wikipediaTitle: 'Marco Pantani',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Marco%20Pantani.jpg?width=400'
-  },
-  {
-    id: 'maria-de-filippi',
-    name: 'Maria De Filippi',
-    bornYear: 1961,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Maria De Filippi',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Maria%20De%20Filippi%20a%20Sanremo%202009.jpg?width=400'
+    wikipediaTitle: 'Marco Tardelli',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Marco%20Tardelli%201976%20Torino.jpg?width=400'
   },
   {
     id: 'mariangela-melato',
@@ -684,15 +666,6 @@ export const italianCelebrities: Celebrity[] = [
     isAlive: false,
     wikipediaTitle: 'Mariangela Melato',
     imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Mariangela%20Melato%201972.jpg?width=400'
-  },
-  {
-    id: 'massimiliano-allegri',
-    name: 'Massimiliano Allegri',
-    bornYear: 1967,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Massimiliano Allegri',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Incontro%20con%20le%20squadre%20finaliste%20della%20Coppa%20Italia%20di%20calcio%20Frecciarossa%20Atalanta%20-%20Juventus%2001%20-%20Massimiliano%20Allegri%20(cropped).jpg?width=400'
   },
   {
     id: 'massimo-d-alema',
@@ -713,33 +686,6 @@ export const italianCelebrities: Celebrity[] = [
     imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Massimo%20Gramellini%20-%20Festivaletteratura%202012%20-%201.JPG?width=400'
   },
   {
-    id: 'massimo-troisi',
-    name: 'Massimo Troisi',
-    bornYear: 1953,
-    diedYear: 1994,
-    isAlive: false,
-    wikipediaTitle: 'Massimo Troisi',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Massimo%20Troisi%20alla%20Mostra%20del%20Cinema%20di%20Venezia%2C%201989.jpg?width=400'
-  },
-  {
-    id: 'matteo-berrettini',
-    name: 'Matteo Berrettini',
-    bornYear: 1996,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Matteo Berrettini',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Matteo%20Berrettini%2C%202021.jpg?width=400'
-  },
-  {
-    id: 'matteo-renzi',
-    name: 'Matteo Renzi',
-    bornYear: 1975,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Matteo Renzi',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Matteo%20Renzi%2C%20meeting%20Ali%20Khamenei%20in%20Tehran%20(3).jpg?width=400'
-  },
-  {
     id: 'maurizio-costanzo',
     name: 'Maurizio Costanzo',
     bornYear: 1938,
@@ -749,6 +695,24 @@ export const italianCelebrities: Celebrity[] = [
     imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Costanzobau%20(cropped).jpg?width=400'
   },
   {
+    id: 'mel-brooks',
+    name: 'Mel Brooks',
+    bornYear: 1926,
+    diedYear: null,
+    isAlive: true,
+    wikipediaTitle: 'Mel Brooks',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/MelBrooksApr10.jpg?width=400'
+  },
+  {
+    id: 'michael-madsen',
+    name: 'Michael Madsen',
+    bornYear: 1957,
+    diedYear: 2025,
+    isAlive: false,
+    wikipediaTitle: 'Michael Madsen',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Michael%20Madsen%20by%20Gage%20Skidmore.jpg?width=400'
+  },
+  {
     id: 'michele-placido',
     name: 'Michele Placido',
     bornYear: 1946,
@@ -756,15 +720,6 @@ export const italianCelebrities: Celebrity[] = [
     isAlive: true,
     wikipediaTitle: 'Michele Placido',
     imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Divina%20creatura%20(film%201975)%20Michele%20Placido.png?width=400'
-  },
-  {
-    id: 'mike-bongiorno',
-    name: 'Mike Bongiorno',
-    bornYear: 1924,
-    diedYear: 2009,
-    isAlive: false,
-    wikipediaTitle: 'Mike Bongiorno',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Mike%20Bongiorno%20-%20Flash.jpg?width=400'
   },
   {
     id: 'milly-carlucci',
@@ -803,6 +758,24 @@ export const italianCelebrities: Celebrity[] = [
     imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Monica%20Vitti%201990.jpg?width=400'
   },
   {
+    id: 'nancy-brilli',
+    name: 'Nancy Brilli',
+    bornYear: 1964,
+    diedYear: null,
+    isAlive: true,
+    wikipediaTitle: 'Nancy Brilli',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Nancy%20Brilli%2001.jpg?width=400'
+  },
+  {
+    id: 'neil-peart',
+    name: 'Neil Peart',
+    bornYear: 1952,
+    diedYear: 2020,
+    isAlive: false,
+    wikipediaTitle: 'Neil Peart',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/NeilPeart.JPG?width=400'
+  },
+  {
     id: 'niccolo-ammaniti',
     name: 'Niccolò Ammaniti',
     bornYear: 1966,
@@ -810,6 +783,15 @@ export const italianCelebrities: Celebrity[] = [
     isAlive: true,
     wikipediaTitle: 'Niccolò Ammaniti',
     imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Ammaniti%2C%20Niccolo.jpg?width=400'
+  },
+  {
+    id: 'nicola-pietrangeli',
+    name: 'Nicola Pietrangeli',
+    bornYear: 1933,
+    diedYear: 2025,
+    isAlive: false,
+    wikipediaTitle: 'Nicola Pietrangeli',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Nicola%20Pietrangeli%20cropped.jpg?width=400'
   },
   {
     id: 'nino-manfredi',
@@ -821,15 +803,6 @@ export const italianCelebrities: Celebrity[] = [
     imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Nino%20Manfredi%2C%201990.jpg?width=400'
   },
   {
-    id: 'noemi',
-    name: 'Noemi',
-    bornYear: 1982,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Noemi (cantante)',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Noemi-25.jpg?width=400'
-  },
-  {
     id: 'ornella-muti',
     name: 'Ornella Muti',
     bornYear: 1955,
@@ -839,22 +812,49 @@ export const italianCelebrities: Celebrity[] = [
     imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Ornella-Muti.jpg?width=400'
   },
   {
-    id: 'paolo-bonolis',
-    name: 'Paolo Bonolis',
-    bornYear: 1961,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Paolo Bonolis',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Paolo%20Bonolis%20(cropped).jpg?width=400'
+    id: 'ornella-vanoni',
+    name: 'Ornella Vanoni',
+    bornYear: 1934,
+    diedYear: 2025,
+    isAlive: false,
+    wikipediaTitle: 'Ornella Vanoni',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Ornella%20Vanoni%201960s.jpg?width=400'
   },
   {
-    id: 'paolo-maldini',
-    name: 'Paolo Maldini',
-    bornYear: 1968,
+    id: 'ozzy-osbourne',
+    name: 'Ozzy Osbourne',
+    bornYear: 1948,
+    diedYear: 2025,
+    isAlive: false,
+    wikipediaTitle: 'Ozzy Osbourne',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/OzzyChangingHands02-20-2010.jpg?width=400'
+  },
+  {
+    id: 'paolo-hendel',
+    name: 'Paolo Hendel',
+    bornYear: 1952,
     diedYear: null,
     isAlive: true,
-    wikipediaTitle: 'Paolo Maldini',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Paolo%20Maldini%20press%20conference%20in%20Tehran%20(cropped).jpg?width=400'
+    wikipediaTitle: 'Paolo Hendel',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Paolo%20Hendel%20Toscana%20Notizie%202021.png?width=400'
+  },
+  {
+    id: 'paolo-rossi',
+    name: 'Paolo Rossi',
+    bornYear: 1956,
+    diedYear: 2020,
+    isAlive: false,
+    wikipediaTitle: 'Paolo Rossi (calciatore 1956)',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Paolo%20Rossi%20Vicenza%20(cropped).jpg?width=400'
+  },
+  {
+    id: 'paolo-taviani',
+    name: 'Paolo Taviani',
+    bornYear: 1931,
+    diedYear: 2024,
+    isAlive: false,
+    wikipediaTitle: 'Paolo Taviani',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Paolo%20Taviani%20-%20Berlinale%202022.jpg?width=400'
   },
   {
     id: 'paolo-villaggio',
@@ -864,6 +864,42 @@ export const italianCelebrities: Celebrity[] = [
     isAlive: false,
     wikipediaTitle: 'Paolo Villaggio',
     imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Paolo%20Villaggio%2C%20portrait%2C%20Premio%20Chiara%2C%202012.jpg?width=400'
+  },
+  {
+    id: 'patrizia-de-blanck-y-menocal',
+    name: 'Patrizia De Blanck y Menocal',
+    bornYear: 1940,
+    diedYear: 2026,
+    isAlive: false,
+    wikipediaTitle: 'Patrizia De Blanck',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Patrizia%20De%20Blanck%20giovane.jpg?width=400'
+  },
+  {
+    id: 'pele',
+    name: 'Pelé',
+    bornYear: 1940,
+    diedYear: 2022,
+    isAlive: false,
+    wikipediaTitle: 'Pelé',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Pele%20con%20brasil%20(cropped).jpg?width=400'
+  },
+  {
+    id: 'peter-fonda',
+    name: 'Peter Fonda',
+    bornYear: 1940,
+    diedYear: 2019,
+    isAlive: false,
+    wikipediaTitle: 'Peter Fonda',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Peter%20Fonda%202009.jpg?width=400'
+  },
+  {
+    id: 'phil-collins',
+    name: 'Phil Collins',
+    bornYear: 1951,
+    diedYear: null,
+    isAlive: true,
+    wikipediaTitle: 'Phil Collins',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Phil%20Collins%20-%20Royal%20Albert%20Hall%20-%20Wednesday%207th%20June%202017%20PhilCollinsRAH070617-3%20(35215802836)%20(cropped).jpg?width=400'
   },
   {
     id: 'pierfrancesco-favino',
@@ -920,13 +956,22 @@ export const italianCelebrities: Celebrity[] = [
     imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Raimondo%20Vianello%2080s.jpg?width=400'
   },
   {
-    id: 'raoul-bova',
-    name: 'Raoul Bova',
-    bornYear: 1971,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Raoul Bova',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/LizSolari016%20(cropped).jpg?width=400'
+    id: 'raquel-welch',
+    name: 'Raquel Welch',
+    bornYear: 1940,
+    diedYear: 2023,
+    isAlive: false,
+    wikipediaTitle: 'Raquel Welch',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Raquel%20Welch%202000.jpg?width=400'
+  },
+  {
+    id: 'remo-girone',
+    name: 'Remo Girone',
+    bornYear: 1948,
+    diedYear: 2025,
+    isAlive: false,
+    wikipediaTitle: 'Remo Girone',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Remo%20Girone.jpg?width=400'
   },
   {
     id: 'renato-pozzetto',
@@ -938,40 +983,49 @@ export const italianCelebrities: Celebrity[] = [
     imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Renato%20Pozzetto%20(2020).webp?width=400'
   },
   {
-    id: 'roberto-baggio',
-    name: 'Roberto Baggio',
-    bornYear: 1967,
+    id: 'renzo-arbore',
+    name: 'Renzo Arbore',
+    bornYear: 1937,
     diedYear: null,
     isAlive: true,
-    wikipediaTitle: 'Roberto Baggio',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/%D8%B1%D9%88%D8%A8%D8%B1%D8%AA%D9%88%20%D8%A8%D8%A7%D8%AC%D9%88%20(cropped).jpg?width=400'
+    wikipediaTitle: 'Renzo Arbore',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Renzo%20Arbore%201.jpg?width=400'
   },
   {
-    id: 'roberto-benigni',
-    name: 'Roberto Benigni',
-    bornYear: 1952,
+    id: 'rick-moranis',
+    name: 'Rick Moranis',
+    bornYear: 1953,
     diedYear: null,
     isAlive: true,
-    wikipediaTitle: 'Roberto Benigni',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Benigni.jpg?width=400'
+    wikipediaTitle: 'Rick Moranis',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Rick%20Moranis%20at%20the%2062nd%20Academy%20Awards%20(cropped).jpg?width=400'
   },
   {
-    id: 'roberto-mancini',
-    name: 'Roberto Mancini',
-    bornYear: 1964,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Roberto Mancini',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Roberto%20Mancini%202021.jpg?width=400'
+    id: 'robert-selden-duvall',
+    name: 'Robert Selden Duvall',
+    bornYear: 1931,
+    diedYear: 2026,
+    isAlive: false,
+    wikipediaTitle: 'Robert Duvall',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Robert%20Duvall%20(actor%2C%20at%20home%2C%20New%20York%20City%20apartment%2C%201984)%20(cropped).jpg?width=400'
   },
   {
-    id: 'roberto-saviano',
-    name: 'Roberto Saviano',
-    bornYear: 1979,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Roberto Saviano',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Roberto%20Saviano%20retouched.jpg?width=400'
+    id: 'roberto-cavalli',
+    name: 'Roberto Cavalli',
+    bornYear: 1940,
+    diedYear: 2024,
+    isAlive: false,
+    wikipediaTitle: 'Roberto Cavalli',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Roberto%20Cavalli%20Photographed%20by%20Ed%20Kavishe.jpg?width=400'
+  },
+  {
+    id: 'roberto-maroni',
+    name: 'Roberto Maroni',
+    bornYear: 1955,
+    diedYear: 2022,
+    isAlive: false,
+    wikipediaTitle: 'Roberto Maroni',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Roberto%20Maroni%2C%20Premio%20lotta%20alla%20mafia%2C%202010.jpg?width=400'
   },
   {
     id: 'roberto-vecchioni',
@@ -983,6 +1037,15 @@ export const italianCelebrities: Celebrity[] = [
     imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Roberto%20Vecchioni.jpg?width=400'
   },
   {
+    id: 'rocco-commisso',
+    name: 'Rocco Commisso',
+    bornYear: 1949,
+    diedYear: 2026,
+    isAlive: false,
+    wikipediaTitle: 'Rocco Commisso',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Rocco%20B.%20Commisso.jpg?width=400'
+  },
+  {
     id: 'romano-prodi',
     name: 'Romano Prodi',
     bornYear: 1939,
@@ -992,49 +1055,31 @@ export const italianCelebrities: Celebrity[] = [
     imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Romano%20Prodi%20-%20Giornata%20Autonomia%202014.JPG?width=400'
   },
   {
-    id: 'sabrina-ferilli',
-    name: 'Sabrina Ferilli',
-    bornYear: 1964,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Sabrina Ferilli',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Sabrina%20Ferilli%20at%20the%20David%20di%20Donatello%2C%202022%2015%20(cropped).jpg?width=400'
-  },
-  {
-    id: 'sandra-mondaini',
-    name: 'Sandra Mondaini',
-    bornYear: 1931,
-    diedYear: 2010,
+    id: 'sandra-milo',
+    name: 'Sandra Milo',
+    bornYear: 1933,
+    diedYear: 2024,
     isAlive: false,
-    wikipediaTitle: 'Sandra Mondaini',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Sandra%20Mondaini%2080s.jpg?width=400'
+    wikipediaTitle: 'Sandra Milo',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Sandra%20Milo%201956%20(cropped).jpg?width=400'
   },
   {
-    id: 'sfera-ebbasta',
-    name: 'Sfera Ebbasta',
-    bornYear: 1992,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Sfera Ebbasta',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Sfera%20Lloret.jpg?width=400'
-  },
-  {
-    id: 'silvio-berlusconi',
-    name: 'Silvio Berlusconi',
-    bornYear: 1936,
-    diedYear: 2023,
+    id: 'sidney-poitier',
+    name: 'Sidney Poitier',
+    bornYear: 1927,
+    diedYear: 2022,
     isAlive: false,
-    wikipediaTitle: 'Silvio Berlusconi',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Silvio%20Berlusconi%202018.jpg?width=400'
+    wikipediaTitle: 'Sidney Poitier',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Sidney%20Poitier%201968.jpg?width=400'
   },
   {
-    id: 'simona-ventura',
-    name: 'Simona Ventura',
-    bornYear: 1965,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Simona Ventura',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Simona%20Ventura%20al%20Festival%20di%20Sanremo%202026.jpg?width=400'
+    id: 'sinisa-mihajlovic',
+    name: 'Sinisa Mihajlovic',
+    bornYear: 1969,
+    diedYear: 2022,
+    isAlive: false,
+    wikipediaTitle: 'Siniša Mihajlović',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Sini%C5%A1a%20Mihajlovi%C4%87.JPG?width=400'
   },
   {
     id: 'sophia-loren',
@@ -1046,6 +1091,15 @@ export const italianCelebrities: Celebrity[] = [
     imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Sophia%20Loren%201962.jpg?width=400'
   },
   {
+    id: 'sophie-kinsella',
+    name: 'Sophie Kinsella',
+    bornYear: 1969,
+    diedYear: 2025,
+    isAlive: false,
+    wikipediaTitle: 'Sophie Kinsella',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Sophie%20Kinsella.jpg?width=400'
+  },
+  {
     id: 'stefano-benni',
     name: 'Stefano Benni',
     bornYear: 1947,
@@ -1053,6 +1107,15 @@ export const italianCelebrities: Celebrity[] = [
     isAlive: false,
     wikipediaTitle: 'Stefano Benni',
     imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Stefano%20Benni%20par%20Claude%20Truong-Ngoc%20sept%202013.jpg?width=400'
+  },
+  {
+    id: 'steven-seagal',
+    name: 'Steven Seagal',
+    bornYear: 1952,
+    diedYear: null,
+    isAlive: true,
+    wikipediaTitle: 'Steven Seagal',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Steven%20Seagal%20November%202016.jpg?width=400'
   },
   {
     id: 'terence-hill',
@@ -1064,22 +1127,31 @@ export const italianCelebrities: Celebrity[] = [
     imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Terence%20Hill%20in%20Dresden%20(20.08.2018).jpg?width=400'
   },
   {
-    id: 'tiziano-ferro',
-    name: 'Tiziano Ferro',
-    bornYear: 1980,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Tiziano Ferro',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Tiziano%20Ferro.jpg?width=400'
+    id: 'terry-jones',
+    name: 'Terry Jones',
+    bornYear: 1942,
+    diedYear: 2020,
+    isAlive: false,
+    wikipediaTitle: 'Terry Jones',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Terry%20Jones%20Monty%20Python%20O2%20Arena%20(cropped)%20(2).jpg?width=400'
   },
   {
-    id: 'toto',
-    name: 'Totò',
-    bornYear: 1898,
-    diedYear: 1967,
+    id: 'tina-turner',
+    name: 'Tina Turner',
+    bornYear: 1939,
+    diedYear: 2023,
     isAlive: false,
-    wikipediaTitle: 'Totò',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/AntonioDeCurtisFoto.png?width=400'
+    wikipediaTitle: 'Tina Turner',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Tina%20Turner%2050th%20Anniversary%20Tour.jpg?width=400'
+  },
+  {
+    id: 'tiziano-crudeli',
+    name: 'Tiziano Crudeli',
+    bornYear: 1943,
+    diedYear: null,
+    isAlive: true,
+    wikipediaTitle: 'Tiziano Crudeli',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Tiziano%20Crudeli.JPG?width=400'
   },
   {
     id: 'ugo-tognazzi',
@@ -1091,15 +1163,6 @@ export const italianCelebrities: Celebrity[] = [
     imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Magnifico%20cornuto%20-%20Ugo%20Tognazzi%20cropped.png?width=400'
   },
   {
-    id: 'ultimo',
-    name: 'Ultimo',
-    bornYear: 1996,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Ultimo (cantautore)',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/UltimoIMG%204813%20(cropped).JPG?width=400'
-  },
-  {
     id: 'umberto-eco',
     name: 'Umberto Eco',
     bornYear: 1932,
@@ -1109,49 +1172,31 @@ export const italianCelebrities: Celebrity[] = [
     imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Italiaanse%20schrijver%20Umberto%20Eco%20%2C%20kop%2C%20Bestanddeelnr%20932-9758.jpg?width=400'
   },
   {
-    id: 'valentino-rossi',
-    name: 'Valentino Rossi',
-    bornYear: 1979,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Valentino Rossi',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Valentino%20Rossi%202017.jpg?width=400'
+    id: 'valentino-garavani',
+    name: 'Valentino Garavani',
+    bornYear: 1932,
+    diedYear: 2026,
+    isAlive: false,
+    wikipediaTitle: 'Valentino (stilista)',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Valentino%20(cropped).jpg?width=400'
   },
   {
-    id: 'valerio-mastandrea',
-    name: 'Valerio Mastandrea',
-    bornYear: 1972,
-    diedYear: null,
-    isAlive: true,
-    wikipediaTitle: 'Valerio Mastandrea',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Valerio%20Mastandrea%201.JPG?width=400'
+    id: 'vittorio-emanuele-di-savoia',
+    name: 'Vittorio Emanuele di Savoia',
+    bornYear: 1937,
+    diedYear: 2024,
+    isAlive: false,
+    wikipediaTitle: 'Vittorio Emanuele di Savoia (1937)',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Victor%20Emmanuel%20of%20Savoie%20(0)%20(cropped).jpg?width=400'
   },
   {
-    id: 'vasco-rossi',
-    name: 'Vasco Rossi',
+    id: 'vittorio-sgarbi',
+    name: 'Vittorio Sgarbi',
     bornYear: 1952,
     diedYear: null,
     isAlive: true,
-    wikipediaTitle: 'Vasco Rossi',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Vasco%20Rossi%202.jpg?width=400'
-  },
-  {
-    id: 'virna-lisi',
-    name: 'Virna Lisi',
-    bornYear: 1936,
-    diedYear: 2014,
-    isAlive: false,
-    wikipediaTitle: 'Virna Lisi',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Virna%20Lisi%20giovane.jpg?width=400'
-  },
-  {
-    id: 'vittorio-gassman',
-    name: 'Vittorio Gassman',
-    bornYear: 1922,
-    diedYear: 2000,
-    isAlive: false,
-    wikipediaTitle: 'Vittorio Gassman',
-    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Vittorio%20Gassman.jpg?width=400'
+    wikipediaTitle: 'Vittorio Sgarbi',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/3847%20-%20Vittorio%20Sgarbi%20presenta%20la%20mostra%20-Arte%20ed%20Omosessualit%C3%A0-%20-%20Foto%20Giovanni%20Dall\'Orto%2C%209-July-2007.jpg?width=400'
   },
   {
     id: 'walter-chiari',
@@ -1170,5 +1215,23 @@ export const italianCelebrities: Celebrity[] = [
     isAlive: true,
     wikipediaTitle: 'Walter Veltroni',
     imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Walter%20Veltroni%203%20cropped.jpg?width=400'
+  },
+  {
+    id: 'yao-ming',
+    name: 'Yao Ming',
+    bornYear: 1980,
+    diedYear: null,
+    isAlive: true,
+    wikipediaTitle: 'Yao Ming',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/YaoMingonoffense2.jpg?width=400'
+  },
+  {
+    id: 'zach-efron',
+    name: 'Zach Efron',
+    bornYear: 1987,
+    diedYear: null,
+    isAlive: true,
+    wikipediaTitle: 'Zac Efron',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Zac%20Efron%2C%20Eva%20Rinaldi%20Photography%20(10)%20(34732926735).jpg?width=400'
   }
 ];
