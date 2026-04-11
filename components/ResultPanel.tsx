@@ -15,12 +15,12 @@ export function ResultPanel({ result }: ResultPanelProps) {
   const resultLabel = isCorrect
     ? "Nice"
     : guessedAlive
-      ? "Still cold"
+      ? "Already cold"
       : "Not yet";
 
   return (
     <section
-      className={`fixed inset-0 z-50 flex min-h-screen items-center justify-center px-5 py-8 transition ${
+      className={`result-overlay fixed inset-0 z-50 flex min-h-[100dvh] items-center justify-center px-5 py-8 ${
         isCorrect
           ? "bg-[radial-gradient(circle_at_top,rgba(74,222,128,0.18),transparent_34%),linear-gradient(180deg,#022c22_0%,#03120f_100%)] text-white"
           : "bg-[radial-gradient(circle_at_top,rgba(244,114,182,0.16),transparent_34%),linear-gradient(180deg,#3f0a1d_0%,#13050b_100%)] text-white"

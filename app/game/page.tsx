@@ -11,7 +11,7 @@ import { Celebrity, CelebrityRoundResult } from "@/types/celebrity";
 
 const TOTAL_ROUNDS = 10;
 const SWIPE_THRESHOLD = 110;
-const AUTO_ADVANCE_MS = 4000;
+const AUTO_ADVANCE_MS = 2000;
 
 function shuffle<T>(items: T[]) {
   const cloned = [...items];
@@ -95,6 +95,19 @@ export default function GamePage() {
     void loadGame();
   }, [loadGame]);
 
+  useEffect(() => {
+    const upcoming = [deck[currentIndex + 1], deck[currentIndex + 2]].filter(
+      (celebrity): celebrity is Celebrity => Boolean(celebrity?.imageUrl),
+    );
+
+    for (const celebrity of upcoming) {
+      try {
+        const image = new window.Image();
+        image.src = celebrity.imageUrl as string;
+      } catch {}
+    }
+  }, [currentIndex, deck]);
+
   const handleAnswer = useCallback(
     (guessAlive: boolean): void => {
       if (!currentCelebrity || roundResult) {
@@ -102,6 +115,10 @@ export default function GamePage() {
       }
 
       const isCorrect = currentCelebrity.isAlive === guessAlive;
+
+      if (!isCorrect && typeof navigator !== "undefined" && "vibrate" in navigator) {
+        navigator.vibrate(60);
+      }
 
       setSelectedAnswer(guessAlive);
       setRoundResult({
@@ -257,8 +274,8 @@ export default function GamePage() {
   }, [error, gameComplete, loading]);
 
   return (
-    <main className="mx-auto flex min-h-screen w-full max-w-2xl flex-col px-4 py-5 text-white sm:px-6 sm:py-8">
-      <div className="mb-5 sm:mb-6">
+    <main className="mx-auto flex min-h-[100dvh] w-full max-w-2xl flex-col overflow-hidden px-4 py-4 text-white sm:px-6 sm:py-6">
+      <div className="mb-4 sm:mb-5">
         <div className="mb-4 text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.32em] text-violet-200/70">
             Still Here?
@@ -270,7 +287,7 @@ export default function GamePage() {
         <ScoreBar score={score} answered={answered} streak={streak} totalRounds={TOTAL_ROUNDS} />
       </div>
 
-      <div className="flex flex-1 flex-col items-center justify-center">
+      <div className="flex flex-1 flex-col items-center justify-center overflow-hidden">
         {loading ? (
           <section className="w-full rounded-[2rem] border border-white/10 bg-white/5 p-8 text-center shadow-[0_20px_80px_rgba(2,6,23,0.35)] backdrop-blur">
             <div className="mx-auto h-12 w-12 animate-spin rounded-full border-4 border-white/15 border-t-emerald-400" />
@@ -297,7 +314,7 @@ export default function GamePage() {
         ) : null}
 
         {!loading && !error && !gameComplete && currentCelebrity ? (
-          <div className="w-full space-y-6 sm:space-y-7">
+          <div className="flex w-full flex-1 items-center">
             <CelebrityCard
               celebrity={currentCelebrity}
               answered={Boolean(roundResult)}
@@ -310,12 +327,6 @@ export default function GamePage() {
               onPointerUp={handlePointerEnd}
               onPointerCancel={handlePointerEnd}
             />
-            {!roundResult ? (
-              <p className="px-2 text-center text-sm leading-6 text-white/55 sm:text-base">
-                Keyboard shortcuts: <span className="font-semibold text-rose-200">Left Arrow = Gone</span>{" "}
-                and <span className="font-semibold text-emerald-200">Right Arrow = Here</span>
-              </p>
-            ) : null}
           </div>
         ) : null}
 

@@ -65,7 +65,7 @@ export function CelebrityCard({
 
   return (
     <article
-      className="card-enter mx-auto w-full max-w-xl touch-none select-none overflow-hidden rounded-[2rem] border border-white/10 bg-[#0f172acc] shadow-[0_20px_80px_rgba(2,6,23,0.55),0_0_0_1px_rgba(255,255,255,0.03)] backdrop-blur"
+      className="card-enter mx-auto flex w-full max-w-xl touch-none select-none flex-col overflow-hidden rounded-[2rem] border border-white/10 bg-[#0f172acc] shadow-[0_20px_80px_rgba(2,6,23,0.55),0_0_0_1px_rgba(255,255,255,0.03)] backdrop-blur"
       style={{
         transform: `translate3d(${dragX}px, 0, 0) rotate(${rotation}deg)`,
         transition: isDragging ? "none" : "transform 220ms ease",
@@ -75,7 +75,7 @@ export function CelebrityCard({
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerCancel}
     >
-      <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#131c31]">
+      <div className="relative aspect-[4/5] max-h-[44dvh] w-full overflow-hidden bg-[#131c31] sm:max-h-[48dvh]">
         {celebrity.imageUrl ? (
           <Image
             src={celebrity.imageUrl}
@@ -112,7 +112,7 @@ export function CelebrityCard({
         </div>
       </div>
 
-      <div className="space-y-7 p-6 sm:space-y-8 sm:p-8">
+      <div className="space-y-5 p-5 sm:space-y-6 sm:p-7">
         <div className="space-y-3 text-center sm:text-left">
           <p className="text-sm font-medium uppercase tracking-[0.25em] text-white/45">
             Famous Person
@@ -120,9 +120,6 @@ export function CelebrityCard({
           <h2 className="text-4xl font-semibold tracking-tight text-white sm:text-[2.6rem]">
             {celebrity.name}
           </h2>
-          <p className="text-sm leading-6 text-white/55 sm:text-base">
-            Swipe left for Gone. Swipe right for Here.
-          </p>
         </div>
 
         <div className="flex items-end justify-center gap-8 pb-[max(0.25rem,env(safe-area-inset-bottom))]">

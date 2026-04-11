@@ -15,7 +15,7 @@ html {
 }
 
 body {
-  min-height: 100vh;
+  min-height: 100dvh;
   color: #f8fafc;
   background: transparent;
 }
@@ -33,6 +33,10 @@ a {
   animation: card-enter 280ms ease-out;
 }
 
+.result-overlay {
+  animation: result-overlay-in 200ms ease-out forwards;
+}
+
 @keyframes card-enter {
   from {
     opacity: 0;
@@ -42,5 +46,17 @@ a {
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes result-overlay-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
