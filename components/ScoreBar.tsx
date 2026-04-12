@@ -5,6 +5,7 @@ type ScoreBarProps = {
   totalRounds: number;
   roundTimeLeftMs: number;
   roundDurationMs: number;
+  showTimer: boolean;
 };
 
 export function ScoreBar({
@@ -14,6 +15,7 @@ export function ScoreBar({
   totalRounds,
   roundTimeLeftMs,
   roundDurationMs,
+  showTimer,
 }: ScoreBarProps) {
   const progress = Math.min((answered / totalRounds) * 100, 100);
   const roundProgress = Math.max((roundTimeLeftMs / roundDurationMs) * 100, 0);
@@ -26,20 +28,22 @@ export function ScoreBar({
 
   return (
     <div className="w-full space-y-2.5">
-      <div className="rounded-[1.15rem] border border-white/10 bg-white/5 px-3 py-2.5 shadow-[0_0_24px_rgba(15,23,42,0.28)] backdrop-blur">
-        <div className="mb-2 flex items-center justify-between gap-3">
-          <p className="text-[0.65rem] font-semibold uppercase tracking-[0.24em] text-white/45">
-            Round Timer
-          </p>
-          <p className="text-xs font-semibold text-white/65">{secondsLeft}s left</p>
+      {showTimer ? (
+        <div className="rounded-[1.15rem] border border-white/10 bg-white/5 px-3 py-2.5 shadow-[0_0_24px_rgba(15,23,42,0.28)] backdrop-blur">
+          <div className="mb-2 flex items-center justify-between gap-3">
+            <p className="text-[0.65rem] font-semibold uppercase tracking-[0.24em] text-white/45">
+              Round Timer
+            </p>
+            <p className="text-xs font-semibold text-white/65">{secondsLeft}s left</p>
+          </div>
+          <div className="h-2 overflow-hidden rounded-full bg-white/10">
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-amber-300 via-orange-400 to-rose-400 transition-[width] duration-100 ease-linear"
+              style={{ width: `${roundProgress}%` }}
+            />
+          </div>
         </div>
-        <div className="h-2 overflow-hidden rounded-full bg-white/10">
-          <div
-            className="h-full rounded-full bg-gradient-to-r from-amber-300 via-orange-400 to-rose-400 transition-[width] duration-100 ease-linear"
-            style={{ width: `${roundProgress}%` }}
-          />
-        </div>
-      </div>
+      ) : null}
 
       <div className="h-1.5 overflow-hidden rounded-full bg-white/10">
         <div

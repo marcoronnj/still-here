@@ -38,14 +38,21 @@ export default function GamePage() {
   const [dragX, setDragX] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [timeLeftMs, setTimeLeftMs] = useState(ROUND_DURATION_MS);
+  const [imageReadyState, setImageReadyState] = useState<Record<string, boolean>>({});
   const pointerIdRef = useRef<number | null>(null);
   const startXRef = useRef(0);
   const advanceTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const roundTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const timeoutHandledRef = useRef(false);
+  const imagePreloadPromisesRef = useRef<Map<string, Promise<void>>>(new Map());
 
   const currentCelebrity = deck[currentIndex] ?? null;
   const gameComplete = answered >= TOTAL_ROUNDS && roundResult === null;
+  const currentCardReady = currentCelebrity
+    ? currentCelebrity.imageUrl === null || imageReadyState[currentCelebrity.id] === true
+    : false;
+  const showRoundTimer =
+    !loading && !error && !gameComplete && !roundResult && Boolean(currentCelebrity) && currentCardReady;
 
   const resetDrag = useCallback((): void => {
     setDragX(0);
@@ -59,6 +66,8 @@ export default function GamePage() {
     setSelectedAnswer(null);
     setRoundResult(null);
     setTimeLeftMs(ROUND_DURATION_MS);
+    setImageReadyState({});
+    imagePreloadPromisesRef.current.clear();
     timeoutHandledRef.current = false;
     resetDrag();
 
@@ -87,6 +96,8 @@ export default function GamePage() {
       setStreak(0);
       setAnswered(0);
       setTimeLeftMs(ROUND_DURATION_MS);
+      setImageReadyState({});
+      imagePreloadPromisesRef.current.clear();
       timeoutHandledRef.current = false;
     } catch (caughtError) {
       const message =
@@ -104,17 +115,58 @@ export default function GamePage() {
   }, [loadGame]);
 
   useEffect(() => {
-    const upcoming = [deck[currentIndex + 1], deck[currentIndex + 2]].filter(
-      (celebrity): celebrity is Celebrity => Boolean(celebrity?.imageUrl),
-    );
+    const markReady = (celebrityId: string) => {
+      setImageReadyState((current) =>
+        current[celebrityId] ? current : { ...current, [celebrityId]: true },
+      );
+    };
 
-    for (const celebrity of upcoming) {
-      try {
-        const image = new window.Image();
-        image.src = celebrity.imageUrl as string;
-      } catch {}
-    }
-  }, [currentIndex, deck]);
+    const ensureCelebrityReady = (celebrity: Celebrity | null | undefined) => {
+      if (!celebrity) {
+        return;
+      }
+
+      if (!celebrity.imageUrl) {
+        markReady(celebrity.id);
+        return;
+      }
+
+      if (imageReadyState[celebrity.id]) {
+        return;
+      }
+
+      const existingPromise = imagePreloadPromisesRef.current.get(celebrity.id);
+
+      if (existingPromise) {
+        return;
+      }
+
+      const preloadPromise = new Promise<void>((resolve) => {
+        try {
+          const image = new window.Image();
+          const finalize = () => {
+            markReady(celebrity.id);
+            imagePreloadPromisesRef.current.delete(celebrity.id);
+            resolve();
+          };
+
+          image.onload = finalize;
+          image.onerror = finalize;
+          image.src = celebrity.imageUrl as string;
+        } catch {
+          markReady(celebrity.id);
+          imagePreloadPromisesRef.current.delete(celebrity.id);
+          resolve();
+        }
+      });
+
+      imagePreloadPromisesRef.current.set(celebrity.id, preloadPromise);
+    };
+
+    ensureCelebrityReady(deck[currentIndex]);
+    ensureCelebrityReady(deck[currentIndex + 1]);
+    ensureCelebrityReady(deck[currentIndex + 2]);
+  }, [currentIndex, deck, imageReadyState]);
 
   const handleAnswer = useCallback(
     (guessAlive: boolean): void => {
@@ -222,7 +274,7 @@ export default function GamePage() {
       roundTimerRef.current = null;
     }
 
-    if (loading || error || gameComplete || roundResult || !currentCelebrity) {
+    if (loading || error || gameComplete || roundResult || !currentCelebrity || !currentCardReady) {
       setTimeLeftMs(ROUND_DURATION_MS);
       timeoutHandledRef.current = false;
       return;
@@ -256,7 +308,7 @@ export default function GamePage() {
         roundTimerRef.current = null;
       }
     };
-  }, [currentCelebrity, error, gameComplete, handleAnswer, loading, roundResult]);
+  }, [currentCardReady, currentCelebrity, error, gameComplete, handleAnswer, loading, roundResult]);
 
   useEffect(() => {
     if (!roundResult) {
@@ -321,6 +373,7 @@ export default function GamePage() {
           totalRounds={TOTAL_ROUNDS}
           roundTimeLeftMs={timeLeftMs}
           roundDurationMs={ROUND_DURATION_MS}
+          showTimer={showRoundTimer}
         />
       </div>
 
@@ -350,9 +403,10 @@ export default function GamePage() {
           <EndScreen score={score} totalRounds={TOTAL_ROUNDS} onRestart={() => void loadGame()} />
         ) : null}
 
-        {!loading && !error && !gameComplete && currentCelebrity ? (
+        {!loading && !error && !gameComplete && currentCelebrity && currentCardReady ? (
           <div className="flex w-full flex-1 items-center">
             <CelebrityCard
+              key={currentCelebrity.id}
               celebrity={currentCelebrity}
               answered={Boolean(roundResult)}
               selectedAnswer={selectedAnswer}
@@ -365,6 +419,26 @@ export default function GamePage() {
               onPointerCancel={handlePointerEnd}
             />
           </div>
+        ) : null}
+
+        {!loading && !error && !gameComplete && currentCelebrity && !currentCardReady ? (
+          <section className="flex w-full flex-1 items-center">
+            <div className="mx-auto flex w-full max-w-xl flex-col overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#0f172acc] shadow-[0_20px_80px_rgba(2,6,23,0.55),0_0_0_1px_rgba(255,255,255,0.03)] backdrop-blur">
+              <div className="relative aspect-[4/5] max-h-[40dvh] w-full overflow-hidden bg-[#131c31] sm:max-h-[44dvh]">
+                <div className="h-full w-full bg-[radial-gradient(circle_at_top,rgba(148,163,184,0.12),transparent_34%),linear-gradient(180deg,rgba(30,41,59,0.95)_0%,rgba(15,23,42,1)_100%)]" />
+                <div className="absolute inset-0 animate-pulse bg-white/[0.03]" />
+              </div>
+              <div className="space-y-3 p-4 sm:space-y-4 sm:p-5">
+                <div className="flex items-end justify-center gap-6 pb-[max(0.25rem,env(safe-area-inset-bottom))]">
+                  <div className="h-20 w-20 rounded-full border border-white/10 bg-white/5 sm:h-[5.1rem] sm:w-[5.1rem]" />
+                  <div className="h-20 w-20 rounded-full border border-white/10 bg-white/5 sm:h-[5.1rem] sm:w-[5.1rem]" />
+                </div>
+                <p className="text-center text-[0.72rem] font-medium text-white/35">
+                  Preparing next card...
+                </p>
+              </div>
+            </div>
+          </section>
         ) : null}
 
         {!loading && !error && !gameComplete && !currentCelebrity ? (

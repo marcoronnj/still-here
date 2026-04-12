@@ -75,7 +75,10 @@ export function CelebrityCard({
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerCancel}
     >
-      <div className="relative aspect-[4/5] max-h-[40dvh] w-full overflow-hidden bg-[#131c31] sm:max-h-[44dvh]">
+      <div
+        key={celebrity.id}
+        className="relative aspect-[4/5] max-h-[40dvh] w-full overflow-hidden bg-[#131c31] sm:max-h-[44dvh]"
+      >
         {celebrity.imageUrl ? (
           <Image
             src={celebrity.imageUrl}
