@@ -18,7 +18,7 @@ type CelebrityCardProps = {
 
 function buttonClasses(kind: "alive" | "dead", answered: boolean, selectedAnswer: boolean | null) {
   const base =
-    "flex h-20 w-20 items-center justify-center rounded-full border transition duration-150 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-950 active:scale-[0.96]";
+    "flex h-16 w-16 items-center justify-center rounded-full border transition duration-150 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-950 active:scale-[0.96] sm:h-[4.5rem] sm:w-[4.5rem]";
 
   if (!answered) {
     return kind === "alive"
@@ -65,7 +65,7 @@ export function CelebrityCard({
 
   return (
     <article
-      className="card-enter mx-auto flex w-full max-w-xl touch-none select-none flex-col overflow-hidden rounded-[2rem] border border-white/10 bg-[#0f172acc] shadow-[0_20px_80px_rgba(2,6,23,0.55),0_0_0_1px_rgba(255,255,255,0.03)] backdrop-blur"
+      className="card-enter mx-auto flex w-full max-w-xl touch-none select-none flex-col overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#0f172acc] shadow-[0_20px_80px_rgba(2,6,23,0.55),0_0_0_1px_rgba(255,255,255,0.03)] backdrop-blur"
       style={{
         transform: `translate3d(${dragX}px, 0, 0) rotate(${rotation}deg)`,
         transition: isDragging ? "none" : "transform 220ms ease",
@@ -75,7 +75,7 @@ export function CelebrityCard({
       onPointerUp={onPointerUp}
       onPointerCancel={onPointerCancel}
     >
-      <div className="relative aspect-[4/5] max-h-[44dvh] w-full overflow-hidden bg-[#131c31] sm:max-h-[48dvh]">
+      <div className="relative aspect-[4/5] max-h-[40dvh] w-full overflow-hidden bg-[#131c31] sm:max-h-[44dvh]">
         {celebrity.imageUrl ? (
           <Image
             src={celebrity.imageUrl}
@@ -108,21 +108,19 @@ export function CelebrityCard({
             Here
           </div>
 
-          <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-[#020617]/90 via-[#020617]/35 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#020617]/96 via-[#020617]/62 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5">
+            <div className="max-w-[85%]">
+              <h2 className="text-[1.85rem] font-semibold leading-none tracking-tight text-white drop-shadow-[0_2px_12px_rgba(2,6,23,0.85)] sm:text-[2.2rem]">
+                {celebrity.name}
+              </h2>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="space-y-5 p-5 sm:space-y-6 sm:p-7">
-        <div className="space-y-3 text-center sm:text-left">
-          <p className="text-sm font-medium uppercase tracking-[0.25em] text-white/45">
-            Famous Person
-          </p>
-          <h2 className="text-4xl font-semibold tracking-tight text-white sm:text-[2.6rem]">
-            {celebrity.name}
-          </h2>
-        </div>
-
-        <div className="flex items-end justify-center gap-8 pb-[max(0.25rem,env(safe-area-inset-bottom))]">
+      <div className="space-y-3 p-4 sm:space-y-4 sm:p-5">
+        <div className="flex items-end justify-center gap-6 pb-[max(0.25rem,env(safe-area-inset-bottom))]">
           <div className="flex flex-col items-center gap-2">
             <button
               type="button"
@@ -131,9 +129,9 @@ export function CelebrityCard({
               aria-label="Gone"
               className={buttonClasses("dead", answered, selectedAnswer)}
             >
-              <span className="text-3xl leading-none">X</span>
+              <span className="text-[1.7rem] leading-none">X</span>
             </button>
-            <span className="text-sm font-semibold tracking-[0.22em] text-rose-200 uppercase">
+            <span className="text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-rose-200">
               Gone
             </span>
           </div>
@@ -146,13 +144,17 @@ export function CelebrityCard({
               aria-label="Here"
               className={buttonClasses("alive", answered, selectedAnswer)}
             >
-              <span className="text-3xl leading-none">✓</span>
+              <span className="text-[1.7rem] leading-none">✓</span>
             </button>
-            <span className="text-sm font-semibold tracking-[0.22em] text-emerald-200 uppercase">
+            <span className="text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-emerald-200">
               Here
             </span>
           </div>
         </div>
+
+        <p className="text-center text-[0.72rem] font-medium text-white/45">
+          Swipe left for dead • right for alive
+        </p>
       </div>
     </article>
   );

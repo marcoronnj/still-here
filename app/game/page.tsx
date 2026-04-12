@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { PointerEvent as ReactPointerEvent } from "react";
 
 import { CelebrityCard } from "@/components/CelebrityCard";
@@ -12,6 +12,7 @@ import { Celebrity, CelebrityRoundResult } from "@/types/celebrity";
 const TOTAL_ROUNDS = 10;
 const SWIPE_THRESHOLD = 110;
 const AUTO_ADVANCE_MS = 2000;
+const ROUND_DURATION_MS = 10_000;
 
 function shuffle<T>(items: T[]) {
   const cloned = [...items];
@@ -36,9 +37,12 @@ export default function GamePage() {
   const [error, setError] = useState<string | null>(null);
   const [dragX, setDragX] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
+  const [timeLeftMs, setTimeLeftMs] = useState(ROUND_DURATION_MS);
   const pointerIdRef = useRef<number | null>(null);
   const startXRef = useRef(0);
   const advanceTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const roundTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const timeoutHandledRef = useRef(false);
 
   const currentCelebrity = deck[currentIndex] ?? null;
   const gameComplete = answered >= TOTAL_ROUNDS && roundResult === null;
@@ -54,6 +58,8 @@ export default function GamePage() {
     setError(null);
     setSelectedAnswer(null);
     setRoundResult(null);
+    setTimeLeftMs(ROUND_DURATION_MS);
+    timeoutHandledRef.current = false;
     resetDrag();
 
     try {
@@ -80,6 +86,8 @@ export default function GamePage() {
       setScore(0);
       setStreak(0);
       setAnswered(0);
+      setTimeLeftMs(ROUND_DURATION_MS);
+      timeoutHandledRef.current = false;
     } catch (caughtError) {
       const message =
         caughtError instanceof Error
@@ -209,6 +217,48 @@ export default function GamePage() {
   );
 
   useEffect(() => {
+    if (roundTimerRef.current) {
+      clearInterval(roundTimerRef.current);
+      roundTimerRef.current = null;
+    }
+
+    if (loading || error || gameComplete || roundResult || !currentCelebrity) {
+      setTimeLeftMs(ROUND_DURATION_MS);
+      timeoutHandledRef.current = false;
+      return;
+    }
+
+    timeoutHandledRef.current = false;
+    const roundEndsAt = Date.now() + ROUND_DURATION_MS;
+    setTimeLeftMs(ROUND_DURATION_MS);
+
+    roundTimerRef.current = setInterval(() => {
+      const nextTimeLeft = Math.max(roundEndsAt - Date.now(), 0);
+      setTimeLeftMs(nextTimeLeft);
+
+      if (nextTimeLeft > 0 || timeoutHandledRef.current) {
+        return;
+      }
+
+      timeoutHandledRef.current = true;
+
+      if (roundTimerRef.current) {
+        clearInterval(roundTimerRef.current);
+        roundTimerRef.current = null;
+      }
+
+      handleAnswer(!currentCelebrity.isAlive);
+    }, 100);
+
+    return () => {
+      if (roundTimerRef.current) {
+        clearInterval(roundTimerRef.current);
+        roundTimerRef.current = null;
+      }
+    };
+  }, [currentCelebrity, error, gameComplete, handleAnswer, loading, roundResult]);
+
+  useEffect(() => {
     if (!roundResult) {
       return;
     }
@@ -229,6 +279,10 @@ export default function GamePage() {
     return () => {
       if (advanceTimeoutRef.current) {
         clearTimeout(advanceTimeoutRef.current);
+      }
+
+      if (roundTimerRef.current) {
+        clearInterval(roundTimerRef.current);
       }
     };
   }, []);
@@ -257,34 +311,17 @@ export default function GamePage() {
     };
   }, [gameComplete, roundResult, submitSwipe]);
 
-  const headerText = useMemo(() => {
-    if (loading) {
-      return "Loading your first batch...";
-    }
-
-    if (error) {
-      return "The game couldn't load";
-    }
-
-    if (gameComplete) {
-      return "Nice run";
-    }
-
-    return "Swipe the card";
-  }, [error, gameComplete, loading]);
-
   return (
-    <main className="mx-auto flex min-h-[100dvh] w-full max-w-2xl flex-col overflow-hidden px-4 py-4 text-white sm:px-6 sm:py-6">
-      <div className="mb-4 sm:mb-5">
-        <div className="mb-4 text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.32em] text-violet-200/70">
-            Still Here?
-          </p>
-          <h1 className="mt-3 text-4xl font-semibold tracking-tight text-white sm:text-5xl">
-            {headerText}
-          </h1>
-        </div>
-        <ScoreBar score={score} answered={answered} streak={streak} totalRounds={TOTAL_ROUNDS} />
+    <main className="mx-auto flex min-h-[100dvh] w-full max-w-2xl flex-col overflow-hidden px-4 py-3 text-white sm:px-6 sm:py-4">
+      <div className="mb-3">
+        <ScoreBar
+          score={score}
+          answered={answered}
+          streak={streak}
+          totalRounds={TOTAL_ROUNDS}
+          roundTimeLeftMs={timeLeftMs}
+          roundDurationMs={ROUND_DURATION_MS}
+        />
       </div>
 
       <div className="flex flex-1 flex-col items-center justify-center overflow-hidden">
