@@ -1754,7 +1754,7 @@ export const italianCelebrities: Celebrity[] = [
     diedYear: null,
     isAlive: true,
     wikipediaTitle: 'Evaristo Beccalossi',
-    imageUrl: null
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Evaristo%20Beccalossi%20(2016).jpg?width=400'
   },
   {
     id: 'claudio-caniggia',
@@ -1800,5 +1800,50 @@ export const italianCelebrities: Celebrity[] = [
     isAlive: true,
     wikipediaTitle: 'Lionel Richie',
     imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Lionel%20Richie%202017.jpg?width=400'
+  },
+  {
+    id: 'luciano-moggi',
+    name: 'Luciano Moggi',
+    bornYear: 1937,
+    diedYear: null,
+    isAlive: true,
+    wikipediaTitle: 'Luciano Moggi',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/UserAvataricon.svg?width=400'
+  },
+  {
+    id: 'robert-miles',
+    name: 'Robert Miles',
+    bornYear: 1969,
+    diedYear: 2017,
+    isAlive: false,
+    wikipediaTitle: 'Robert Miles',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Robert%20Miles%20by%20Salim%20Lamrani%20(cropped)%20(377x500).jpg?width=400'
+  },
+  {
+    id: 'leo-gullotta',
+    name: 'Leo Gullotta',
+    bornYear: 1946,
+    diedYear: null,
+    isAlive: true,
+    wikipediaTitle: 'Leo Gullotta',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Leo%20Gullotta78.png?width=400'
+  },
+  {
+    id: 'giampiero-mughini',
+    name: 'Giampiero Mughini',
+    bornYear: 1941,
+    diedYear: null,
+    isAlive: true,
+    wikipediaTitle: 'Giampiero Mughini',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Giampiero%20Mughini.png?width=400'
+  },
+  {
+    id: 'alberto-brandi',
+    name: 'Alberto Brandi',
+    bornYear: 1963,
+    diedYear: null,
+    isAlive: true,
+    wikipediaTitle: 'Alberto Brandi',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/UserAvataricon.svg?width=400'
   }
 ];
