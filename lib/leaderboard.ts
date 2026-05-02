@@ -7,7 +7,7 @@ export const LEADERBOARD_STORAGE_KEY = "still-here:leaderboard:royal-rumble";
 
 let inMemoryStore: ResultEntry[] = [];
 
-export type LeaderboardStorage = "redis" | "memory";
+export type LeaderboardStorage = "redis-rest" | "memory";
 
 export type LeaderboardDebugInfo = {
   storage: LeaderboardStorage;
@@ -16,7 +16,7 @@ export type LeaderboardDebugInfo = {
 };
 
 type RedisAdapter = {
-  storage: "redis";
+  storage: "redis-rest";
   get: <T>(key: string) => Promise<T | null>;
   set: <T>(key: string, value: T) => Promise<void>;
 };
@@ -26,23 +26,16 @@ type RedisEnv = {
   token: string;
 };
 
-type RedisModule = {
-  Redis?: {
-    fromEnv: () => {
-      get: <T>(key: string) => Promise<T | null>;
-      set: (key: string, value: unknown) => Promise<unknown>;
-    };
-  };
+type RedisRestResponse<T> = {
+  result?: T;
+  error?: string;
 };
 
-function getRedisEnv(): RedisEnv | null {
+export function getRedisEnv(): RedisEnv | null {
   const candidates = [
-    ["UPSTASH_REDIS_REST_URL", "UPSTASH_REDIS_REST_TOKEN"],
     ["KV_REST_API_URL", "KV_REST_API_TOKEN"],
+    ["UPSTASH_REDIS_REST_URL", "UPSTASH_REDIS_REST_TOKEN"],
     ["STORAGE_REST_API_URL", "STORAGE_REST_API_TOKEN"],
-    ["STORAGE_REDIS_REST_URL", "STORAGE_REDIS_REST_TOKEN"],
-    ["STORAGE_KV_REST_API_URL", "STORAGE_KV_REST_API_TOKEN"],
-    ["STORAGE_UPSTASH_REDIS_REST_URL", "STORAGE_UPSTASH_REDIS_REST_TOKEN"],
   ] as const;
 
   for (const [urlKey, tokenKey] of candidates) {
@@ -57,6 +50,50 @@ function getRedisEnv(): RedisEnv | null {
   return null;
 }
 
+async function redisCommand<T>(command: readonly unknown[]): Promise<T | null> {
+  const redisEnv = getRedisEnv();
+
+  if (!redisEnv) {
+    return null;
+  }
+
+  const response = await fetch(redisEnv.url, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${redisEnv.token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(command),
+    cache: "no-store",
+  });
+
+  const payload = (await response.json().catch(() => null)) as RedisRestResponse<T> | null;
+
+  if (!response.ok || payload?.error) {
+    throw new Error(payload?.error ?? `Upstash Redis REST request failed with ${response.status}.`);
+  }
+
+  return payload && "result" in payload ? (payload.result ?? null) : null;
+}
+
+export async function redisGet<T>(key: string): Promise<T | null> {
+  const result = await redisCommand<string | T>(["GET", key]);
+
+  if (typeof result !== "string") {
+    return result as T | null;
+  }
+
+  try {
+    return JSON.parse(result) as T;
+  } catch {
+    return result as T;
+  }
+}
+
+export async function redisSet<T>(key: string, value: T): Promise<void> {
+  await redisCommand<string>(["SET", key, JSON.stringify(value)]);
+}
+
 async function createRedisAdapter(): Promise<RedisAdapter | null> {
   const redisEnv = getRedisEnv();
 
@@ -64,37 +101,11 @@ async function createRedisAdapter(): Promise<RedisAdapter | null> {
     return null;
   }
 
-  try {
-    const dynamicImport = new Function("specifier", "return import(specifier);") as (
-      specifier: string,
-    ) => Promise<RedisModule>;
-    const redisModule = await dynamicImport("@upstash/redis");
-
-    if (!redisModule.Redis) {
-      throw new Error("@upstash/redis did not export Redis.");
-    }
-
-    process.env.UPSTASH_REDIS_REST_URL = redisEnv.url;
-    process.env.UPSTASH_REDIS_REST_TOKEN = redisEnv.token;
-
-    const redis = redisModule.Redis.fromEnv();
-
-    return {
-      storage: "redis",
-      async get<T>(key: string) {
-        return redis.get<T>(key);
-      },
-      async set<T>(key: string, value: T) {
-        await redis.set(key, value);
-      },
-    };
-  } catch (error) {
-    throw new Error(
-      error instanceof Error
-        ? `Redis leaderboard storage is configured but unavailable: ${error.message}`
-        : "Redis leaderboard storage is configured but unavailable.",
-    );
-  }
+  return {
+    storage: "redis-rest",
+    get: redisGet,
+    set: redisSet,
+  };
 }
 
 async function readEntries(): Promise<{
