@@ -23,10 +23,11 @@ function parseModeFromQuery(request: NextRequest): GameMode {
 export async function GET(request: NextRequest) {
   try {
     const mode = parseModeFromQuery(request);
-    const results = await getRankedLeaderboard(mode);
+    const results = await getRankedLeaderboard();
 
     return NextResponse.json({
-      mode,
+      mode: "royal-rumble",
+      requestedMode: mode,
       results,
     });
   } catch (error) {
@@ -74,10 +75,15 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "totalAnswered cannot be smaller than score." }, { status: 400 });
     }
 
+    if (gameMode !== "royal-rumble") {
+      return NextResponse.json({
+        ignored: true,
+      });
+    }
+
     const result: ResultEntry = {
       id: randomUUID(),
       playerName,
-      gameMode,
       score,
       totalAnswered,
       createdAt: new Date().toISOString(),
@@ -86,7 +92,9 @@ export async function POST(request: NextRequest) {
     const savedEntry = await saveLeaderboardEntry(result);
 
     return NextResponse.json({
-      entry: savedEntry,
+      ignored: false,
+      entry: savedEntry.entry,
+      updated: savedEntry.updated,
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unable to save leaderboard entry.";

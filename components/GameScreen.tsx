@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { PointerEvent as ReactPointerEvent } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import { CelebrityCard } from "@/components/CelebrityCard";
 import { EndScreen } from "@/components/EndScreen";
@@ -37,6 +38,7 @@ type GameScreenProps = {
 };
 
 export function GameScreen({ mode, initialPlayerName = "" }: GameScreenProps) {
+  const router = useRouter();
   const isClassicMode = mode === "classic";
   const [playerName, setPlayerName] = useState(() => normalizePlayerName(initialPlayerName));
   const [playerNameReady, setPlayerNameReady] = useState(initialPlayerName.length > 0);
@@ -99,6 +101,46 @@ export function GameScreen({ mode, initialPlayerName = "" }: GameScreenProps) {
     setIsDragging(false);
     pointerIdRef.current = null;
   }, []);
+
+  const resetGameState = useCallback((): void => {
+    if (advanceTimeoutRef.current) {
+      clearTimeout(advanceTimeoutRef.current);
+      advanceTimeoutRef.current = null;
+    }
+
+    if (roundTimerRef.current) {
+      clearInterval(roundTimerRef.current);
+      roundTimerRef.current = null;
+    }
+
+    imagePreloadPromisesRef.current.clear();
+    timeoutHandledRef.current = false;
+    resetDrag();
+    setDeck([]);
+    setCurrentIndex(0);
+    setScore(0);
+    setStreak(0);
+    setAnswered(0);
+    setSelectedAnswer(null);
+    setRoundResult(null);
+    setLoading(false);
+    setError(null);
+    setTimeLeftMs(ROUND_DURATION_MS);
+    setImageReadyState({});
+    setGameOverReason(null);
+  }, [resetDrag]);
+
+  const handleExitGame = useCallback((): void => {
+    const confirmed =
+      typeof window === "undefined" ? true : window.confirm("Exit game? Progress will be lost.");
+
+    if (!confirmed) {
+      return;
+    }
+
+    resetGameState();
+    router.push("/");
+  }, [resetGameState, router]);
 
   const loadGame = useCallback(async (): Promise<void> => {
     setLoading(true);
@@ -429,6 +471,16 @@ export function GameScreen({ mode, initialPlayerName = "" }: GameScreenProps) {
 
   return (
     <main className="mx-auto flex min-h-[100dvh] w-full max-w-2xl flex-col overflow-hidden px-4 py-3 text-white sm:px-6 sm:py-4">
+      <div className="mb-3 flex items-center justify-start">
+        <button
+          type="button"
+          onClick={handleExitGame}
+          className="inline-flex min-h-10 min-w-10 items-center justify-center rounded-full border border-white/10 bg-white/10 px-3 text-sm font-semibold text-white/80 shadow-[0_8px_24px_rgba(2,6,23,0.2)] backdrop-blur transition hover:bg-white/16 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/25"
+          aria-label="Exit game"
+        >
+          ←
+        </button>
+      </div>
       {!playerNameReady ? (
         <div className="flex flex-1 items-center justify-center">
           <section className="w-full rounded-[2rem] border border-white/10 bg-white/5 p-8 text-center shadow-[0_20px_80px_rgba(2,6,23,0.35)] backdrop-blur">

@@ -3,7 +3,6 @@ export type GameMode = "classic" | "royal-rumble";
 export type ResultEntry = {
   id: string;
   playerName: string;
-  gameMode: GameMode;
   score: number;
   totalAnswered: number;
   createdAt: string;

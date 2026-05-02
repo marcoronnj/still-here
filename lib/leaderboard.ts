@@ -1,15 +1,11 @@
 import "server-only";
 
-import type { GameMode, RankedResultEntry, ResultEntry } from "@/types/game";
+import type { RankedResultEntry, ResultEntry } from "@/types/game";
 
-const MAX_ENTRIES_PER_MODE = 200;
-const STORAGE_PREFIX = "still-here:leaderboard";
+const MAX_ENTRIES = 200;
+const STORAGE_KEY = "still-here:leaderboard:royal-rumble";
 
-const inMemoryStore = new Map<GameMode, ResultEntry[]>();
-
-function getStorageKey(mode: GameMode) {
-  return `${STORAGE_PREFIX}:${mode}`;
-}
+let inMemoryStore: ResultEntry[] = [];
 
 function isKvConfigured() {
   return Boolean(process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN);
@@ -68,23 +64,23 @@ async function kvSet<T>(key: string, value: T): Promise<void> {
   }
 }
 
-async function readEntries(mode: GameMode): Promise<ResultEntry[]> {
+async function readEntries(): Promise<ResultEntry[]> {
   if (isKvConfigured()) {
-    return (await kvGet<ResultEntry[]>(getStorageKey(mode))) ?? [];
+    return (await kvGet<ResultEntry[]>(STORAGE_KEY)) ?? [];
   }
 
-  return inMemoryStore.get(mode) ?? [];
+  return inMemoryStore;
 }
 
-async function writeEntries(mode: GameMode, entries: ResultEntry[]): Promise<void> {
+async function writeEntries(entries: ResultEntry[]): Promise<void> {
   if (isKvConfigured()) {
-    await kvSet(getStorageKey(mode), entries);
+    await kvSet(STORAGE_KEY, entries);
     return;
   }
 
   // Local dev fallback only. This is not persistent and will not survive
   // Vercel serverless cold starts or multiple instances.
-  inMemoryStore.set(mode, entries);
+  inMemoryStore = entries;
 }
 
 function rankEntries(entries: ResultEntry[]): RankedResultEntry[] {
@@ -106,14 +102,50 @@ function rankEntries(entries: ResultEntry[]): RankedResultEntry[] {
     }));
 }
 
-export async function saveLeaderboardEntry(entry: ResultEntry): Promise<ResultEntry> {
-  const currentEntries = await readEntries(entry.gameMode);
-  const nextEntries = [entry, ...currentEntries].slice(0, MAX_ENTRIES_PER_MODE);
-  await writeEntries(entry.gameMode, nextEntries);
-  return entry;
+function normalizeLeaderboardName(name: string): string {
+  return name.trim().toLocaleLowerCase();
 }
 
-export async function getRankedLeaderboard(mode: GameMode): Promise<RankedResultEntry[]> {
-  const entries = await readEntries(mode);
+export async function saveLeaderboardEntry(entry: ResultEntry): Promise<{
+  entry: ResultEntry;
+  updated: boolean;
+}> {
+  const currentEntries = await readEntries();
+  const normalizedName = normalizeLeaderboardName(entry.playerName);
+  const existingIndex = currentEntries.findIndex(
+    (currentEntry) => normalizeLeaderboardName(currentEntry.playerName) === normalizedName,
+  );
+
+  if (existingIndex === -1) {
+    const nextEntries = [entry, ...currentEntries].slice(0, MAX_ENTRIES);
+    await writeEntries(nextEntries);
+
+    return {
+      entry,
+      updated: true,
+    };
+  }
+
+  const existingEntry = currentEntries[existingIndex];
+
+  if (entry.score > existingEntry.score) {
+    const nextEntries = [...currentEntries];
+    nextEntries[existingIndex] = entry;
+    await writeEntries(nextEntries.slice(0, MAX_ENTRIES));
+
+    return {
+      entry,
+      updated: true,
+    };
+  }
+
+  return {
+    entry: existingEntry,
+    updated: false,
+  };
+}
+
+export async function getRankedLeaderboard(): Promise<RankedResultEntry[]> {
+  const entries = await readEntries();
   return rankEntries(entries);
 }

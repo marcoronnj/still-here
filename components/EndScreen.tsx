@@ -29,9 +29,17 @@ export function EndScreen({
   const [savedEntry, setSavedEntry] = useState<ResultEntry | null>(null);
   const [leaderboard, setLeaderboard] = useState<RankedResultEntry[]>([]);
   const [leaderboardError, setLeaderboardError] = useState<string | null>(null);
-  const [loadingLeaderboard, setLoadingLeaderboard] = useState(true);
+  const [loadingLeaderboard, setLoadingLeaderboard] = useState(!isClassic);
 
   useEffect(() => {
+    if (isClassic) {
+      setSavedEntry(null);
+      setLeaderboard([]);
+      setLeaderboardError(null);
+      setLoadingLeaderboard(false);
+      return;
+    }
+
     let cancelled = false;
 
     const saveAndLoadLeaderboard = async () => {
@@ -53,11 +61,13 @@ export function EndScreen({
         });
 
         const savePayload = (await saveResponse.json()) as {
+          ignored?: boolean;
           entry?: ResultEntry;
+          updated?: boolean;
           error?: string;
         };
 
-        if (!saveResponse.ok || !savePayload.entry) {
+        if (!saveResponse.ok || savePayload.ignored || !savePayload.entry) {
           throw new Error(savePayload.error ?? "Unable to save your result.");
         }
 
@@ -98,13 +108,15 @@ export function EndScreen({
     return () => {
       cancelled = true;
     };
-  }, [mode, playerName, score, totalAnswered]);
+  }, [isClassic, mode, playerName, score, totalAnswered]);
 
   const topFive = leaderboard.slice(0, 5);
   const currentPlayerEntry = useMemo(
     () => (savedEntry ? leaderboard.find((entry) => entry.id === savedEntry.id) ?? null : null),
     [leaderboard, savedEntry],
   );
+  const personalBest = savedEntry?.score ?? null;
+  const showPersonalBest = !isClassic && personalBest !== null && personalBest !== score;
 
   return (
     <section className="rounded-[2rem] border border-line/80 bg-white p-8 text-center shadow-card sm:p-10">
@@ -125,65 +137,78 @@ export function EndScreen({
             : "One mistake ended the run. Timeouts count as mistakes too."}
         </p>
       )}
-      <div className="mt-8 rounded-[1.5rem] border border-line/70 bg-slate-50/80 p-4 text-left">
-        <div className="flex items-center justify-between gap-3">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.22em] text-accent">Leaderboard</p>
-            <p className="mt-1 text-sm text-muted">
-              {isClassic ? "Top Classic scores" : "Top Royal Rumble runs"}
-            </p>
-          </div>
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted/80">
-            {mode === "classic" ? "Classic" : "Royal Rumble"}
-          </p>
-        </div>
-
-        {loadingLeaderboard ? (
-          <p className="mt-4 text-sm text-muted">Saving your score and loading the leaderboard...</p>
-        ) : leaderboardError ? (
-          <p className="mt-4 text-sm text-rose-600">{leaderboardError}</p>
-        ) : (
-          <div className="mt-4 space-y-2">
-            {topFive.map((entry) => {
-              const isCurrentPlayer = entry.id === currentPlayerEntry?.id;
-
-              return (
-                <div
-                  key={entry.id}
-                  className={`flex items-center justify-between rounded-[1rem] border px-4 py-3 ${
-                    isCurrentPlayer
-                      ? "border-accent/60 bg-accent/10 shadow-[0_0_0_1px_rgba(14,165,233,0.15),0_10px_25px_rgba(14,165,233,0.08)]"
-                      : "border-line/70 bg-white"
-                  }`}
-                >
-                  <p className="text-sm font-semibold text-ink">
-                    {entry.rank}. {entry.playerName}
-                  </p>
-                  <p className="text-sm font-semibold text-ink">{entry.score}</p>
-                </div>
-              );
-            })}
-
-            {currentPlayerEntry && currentPlayerEntry.rank > 5 ? (
-              <>
-                <p className="px-2 text-center text-sm font-semibold tracking-[0.2em] text-muted">...</p>
-                <div className="flex items-center justify-between rounded-[1rem] border border-accent/60 bg-accent/10 px-4 py-3 shadow-[0_0_0_1px_rgba(14,165,233,0.15),0_10px_25px_rgba(14,165,233,0.08)]">
-                  <p className="text-sm font-semibold text-ink">
-                    {currentPlayerEntry.rank}. {currentPlayerEntry.playerName}
-                  </p>
-                  <p className="text-sm font-semibold text-ink">{currentPlayerEntry.score}</p>
-                </div>
-              </>
+      {!isClassic ? (
+        <div className="mt-8 space-y-4 text-left">
+          <div className="rounded-[1.5rem] border border-line/70 bg-slate-50/80 p-4">
+            <p className="text-sm font-semibold uppercase tracking-[0.22em] text-accent">This Run</p>
+            <div className="mt-3 flex items-center justify-between gap-3 rounded-[1rem] border border-line/70 bg-white px-4 py-3">
+              <p className="text-sm font-semibold text-ink">{playerName}</p>
+              <p className="text-sm font-semibold text-ink">{score}</p>
+            </div>
+            {showPersonalBest ? (
+              <p className="mt-3 text-sm text-muted">Personal best: {personalBest}</p>
             ) : null}
+          </div>
 
-            {!currentPlayerEntry && leaderboard.length === 0 ? (
-              <p className="rounded-[1rem] border border-line/70 bg-white px-4 py-3 text-sm text-muted">
-                No leaderboard entries yet.
+          <div className="rounded-[1.5rem] border border-line/70 bg-slate-50/80 p-4">
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <p className="text-sm font-semibold uppercase tracking-[0.22em] text-accent">Leaderboard</p>
+                <p className="mt-1 text-sm text-muted">Top Royal Rumble runs</p>
+              </div>
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted/80">
+                Royal Rumble
               </p>
-            ) : null}
+            </div>
+
+            {loadingLeaderboard ? (
+              <p className="mt-4 text-sm text-muted">Saving your score and loading the leaderboard...</p>
+            ) : leaderboardError ? (
+              <p className="mt-4 text-sm text-rose-600">{leaderboardError}</p>
+            ) : (
+              <div className="mt-4 space-y-2">
+                {topFive.map((entry) => {
+                  const isCurrentPlayer = entry.id === currentPlayerEntry?.id;
+
+                  return (
+                    <div
+                      key={entry.id}
+                      className={`flex items-center justify-between rounded-[1rem] border px-4 py-3 ${
+                        isCurrentPlayer
+                          ? "border-accent/60 bg-accent/10 shadow-[0_0_0_1px_rgba(14,165,233,0.15),0_10px_25px_rgba(14,165,233,0.08)]"
+                          : "border-line/70 bg-white"
+                      }`}
+                    >
+                      <p className="text-sm font-semibold text-ink">
+                        {entry.rank}. {entry.playerName}
+                      </p>
+                      <p className="text-sm font-semibold text-ink">{entry.score}</p>
+                    </div>
+                  );
+                })}
+
+                {currentPlayerEntry && currentPlayerEntry.rank > 5 ? (
+                  <>
+                    <p className="px-2 text-center text-sm font-semibold tracking-[0.2em] text-muted">...</p>
+                    <div className="flex items-center justify-between rounded-[1rem] border border-accent/60 bg-accent/10 px-4 py-3 shadow-[0_0_0_1px_rgba(14,165,233,0.15),0_10px_25px_rgba(14,165,233,0.08)]">
+                      <p className="text-sm font-semibold text-ink">
+                        {currentPlayerEntry.rank}. {currentPlayerEntry.playerName}
+                      </p>
+                      <p className="text-sm font-semibold text-ink">{currentPlayerEntry.score}</p>
+                    </div>
+                  </>
+                ) : null}
+
+                {!currentPlayerEntry && leaderboard.length === 0 ? (
+                  <p className="rounded-[1rem] border border-line/70 bg-white px-4 py-3 text-sm text-muted">
+                    No leaderboard entries yet.
+                  </p>
+                ) : null}
+              </div>
+            )}
           </div>
-        )}
-      </div>
+        </div>
+      ) : null}
       <button
         type="button"
         onClick={onRestart}
