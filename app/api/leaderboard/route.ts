@@ -128,6 +128,9 @@ export async function POST(request: NextRequest) {
       currentPlayerBest: snapshot.currentPlayerBest,
       currentPlayerRank: snapshot.currentPlayerRank,
       top10: snapshot.top10,
+      storage: savedEntry.debug.storage,
+      count: savedEntry.debug.count,
+      key: savedEntry.debug.key,
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unable to save leaderboard entry.";

@@ -22,6 +22,14 @@ const SWIPE_THRESHOLD = 110;
 const AUTO_ADVANCE_MS = 2000;
 const ROUND_DURATION_MS = 10_000;
 
+function createRunId(): string {
+  try {
+    return crypto.randomUUID();
+  } catch {
+    return `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+  }
+}
+
 function shuffle<T>(items: T[]) {
   const cloned = [...items];
 
@@ -39,13 +47,13 @@ type GameScreenProps = {
   initialPlayerId?: string;
 };
 
-export function GameScreen({ mode, initialPlayerName = "", initialPlayerId = "" }: GameScreenProps) {
+export function GameScreen({ mode, initialPlayerName = "" }: GameScreenProps) {
   const router = useRouter();
   const isClassicMode = mode === "classic";
   const [playerName, setPlayerName] = useState(() => normalizePlayerName(initialPlayerName));
   const [playerNameReady, setPlayerNameReady] = useState(initialPlayerName.length > 0);
-  const [playerId, setPlayerId] = useState(initialPlayerId);
-  const [playerIdentityReady, setPlayerIdentityReady] = useState(Boolean(initialPlayerId));
+  const [playerId, setPlayerId] = useState("");
+  const [playerIdentityReady, setPlayerIdentityReady] = useState(false);
   const [deck, setDeck] = useState<Celebrity[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [score, setScore] = useState(0);
@@ -60,6 +68,7 @@ export function GameScreen({ mode, initialPlayerName = "", initialPlayerId = "" 
   const [timeLeftMs, setTimeLeftMs] = useState(ROUND_DURATION_MS);
   const [imageReadyState, setImageReadyState] = useState<Record<string, boolean>>({});
   const [gameOverReason, setGameOverReason] = useState<"wrong-answer" | "cleared-deck" | null>(null);
+  const [runId, setRunId] = useState(createRunId);
   const pointerIdRef = useRef<number | null>(null);
   const startXRef = useRef(0);
   const advanceTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -101,20 +110,12 @@ export function GameScreen({ mode, initialPlayerName = "", initialPlayerId = "" 
   }, [initialPlayerName]);
 
   useEffect(() => {
-    if (initialPlayerId) {
-      setPlayerId(initialPlayerId);
-      setPlayerIdentityReady(true);
-
-      try {
-        window.localStorage.setItem(PLAYER_ID_STORAGE_KEY, initialPlayerId);
-      } catch {}
-
-      return;
-    }
-
     try {
       const savedPlayerId = window.localStorage.getItem(PLAYER_ID_STORAGE_KEY);
-      const ensuredPlayerId = savedPlayerId && savedPlayerId.trim() ? savedPlayerId : crypto.randomUUID();
+      const ensuredPlayerId =
+        savedPlayerId && savedPlayerId.trim()
+          ? savedPlayerId.trim()
+          : crypto.randomUUID();
       window.localStorage.setItem(PLAYER_ID_STORAGE_KEY, ensuredPlayerId);
       setPlayerId(ensuredPlayerId);
       setPlayerIdentityReady(true);
@@ -122,7 +123,7 @@ export function GameScreen({ mode, initialPlayerName = "", initialPlayerId = "" 
       setPlayerId(crypto.randomUUID());
       setPlayerIdentityReady(true);
     }
-  }, [initialPlayerId]);
+  }, []);
 
   const resetDrag = useCallback((): void => {
     setDragX(0);
@@ -173,6 +174,7 @@ export function GameScreen({ mode, initialPlayerName = "", initialPlayerId = "" 
   const loadGame = useCallback(async (): Promise<void> => {
     setLoading(true);
     setError(null);
+    setRunId(createRunId());
     setSelectedAnswer(null);
     setRoundResult(null);
     setTimeLeftMs(ROUND_DURATION_MS);
@@ -571,6 +573,7 @@ export function GameScreen({ mode, initialPlayerName = "", initialPlayerId = "" 
 
         {!loading && !error && gameComplete ? (
           <EndScreen
+            runId={runId}
             playerId={playerId}
             playerName={playerName}
             mode={mode}

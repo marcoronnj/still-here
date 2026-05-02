@@ -4,7 +4,21 @@ import { useEffect, useMemo, useState } from "react";
 
 import type { GameMode, RankedResultEntry, ResultEntry } from "@/types/game";
 
+type LeaderboardSaveResponse = {
+  saved?: boolean;
+  isPersonalBest?: boolean;
+  entry?: ResultEntry;
+  currentPlayerBest?: ResultEntry | null;
+  currentPlayerRank?: number | null;
+  top10?: RankedResultEntry[];
+  error?: string;
+};
+
+const leaderboardSaveRequests = new Map<string, Promise<LeaderboardSaveResponse>>();
+const loggedEndedRunIds = new Set<string>();
+
 type EndScreenProps = {
+  runId: string;
   playerId: string;
   playerName: string;
   mode: GameMode;
@@ -16,6 +30,7 @@ type EndScreenProps = {
 };
 
 export function EndScreen({
+  runId,
   playerId,
   playerName,
   mode,
@@ -66,37 +81,55 @@ export function EndScreen({
           score,
           totalAnswered,
         };
-        console.log("saving royal rumble score", payload);
+        const saveKey = runId;
 
-        const saveResponse = await fetch("/api/leaderboard", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        });
-
-        const savePayload = (await saveResponse.json()) as {
-          saved?: boolean;
-          isPersonalBest?: boolean;
-          entry?: ResultEntry;
-          currentPlayerBest?: ResultEntry | null;
-          currentPlayerRank?: number | null;
-          top10?: RankedResultEntry[];
-          error?: string;
-        };
-
-        if (!saveResponse.ok || !savePayload.entry) {
-          throw new Error(savePayload.error ?? "Unable to save your result.");
+        if (!loggedEndedRunIds.has(saveKey)) {
+          console.log("Royal Rumble ended", {
+            runId,
+            playerId,
+            playerName,
+            score,
+            totalAnswered,
+          });
+          loggedEndedRunIds.add(saveKey);
         }
 
+        let saveRequest = leaderboardSaveRequests.get(saveKey);
+
+        if (!saveRequest) {
+          console.log("Saving leaderboard payload", payload);
+
+          saveRequest = fetch("/api/leaderboard", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+          }).then(async (saveResponse) => {
+            const savePayload = (await saveResponse.json()) as LeaderboardSaveResponse;
+            console.log("Leaderboard save response", savePayload);
+
+            if (!saveResponse.ok || !savePayload.entry) {
+              throw new Error(savePayload.error ?? "Unable to save your result.");
+            }
+
+            return savePayload;
+          });
+
+          leaderboardSaveRequests.set(saveKey, saveRequest);
+        }
+
+        const savePayload = await saveRequest;
+
         if (!cancelled) {
-          setSavedEntry(savePayload.currentPlayerBest ?? savePayload.entry);
+          setSavedEntry(savePayload.currentPlayerBest ?? savePayload.entry ?? null);
           setLeaderboard(savePayload.top10 ?? []);
           setIsPersonalBest(Boolean(savePayload.isPersonalBest));
           setCurrentPlayerRank(savePayload.currentPlayerRank ?? null);
         }
       } catch (error) {
+        console.error("Leaderboard save error", error);
+
         if (!cancelled) {
           setLeaderboardError(
             error instanceof Error ? error.message : "Leaderboard is unavailable right now.",
@@ -114,12 +147,12 @@ export function EndScreen({
     return () => {
       cancelled = true;
     };
-  }, [isClassic, mode, playerId, playerName, score, totalAnswered]);
+  }, [isClassic, playerId, playerName, runId, score, totalAnswered]);
 
   const topTen = leaderboard;
   const currentPlayerEntry = useMemo(
-    () => (savedEntry ? leaderboard.find((entry) => entry.playerId === savedEntry.playerId) ?? null : null),
-    [leaderboard, savedEntry],
+    () => leaderboard.find((entry) => entry.playerId === playerId) ?? null,
+    [leaderboard, playerId],
   );
   const personalBest = savedEntry?.score ?? null;
   const showPersonalBest = !isClassic && personalBest !== null;
@@ -175,7 +208,7 @@ export function EndScreen({
             ) : (
               <div className="mt-4 space-y-2">
                 {topTen.map((entry) => {
-                  const isCurrentPlayer = entry.playerId === currentPlayerEntry?.playerId;
+                  const isCurrentPlayer = entry.playerId === playerId;
 
                   return (
                     <div
