@@ -1845,5 +1845,59 @@ export const italianCelebrities: Celebrity[] = [
     isAlive: true,
     wikipediaTitle: 'Alberto Brandi',
     imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/UserAvataricon.svg?width=400'
+  },
+  {
+    id: 'alex-zanardi',
+    name: 'Alex Zanardi',
+    bornYear: 1966,
+    diedYear: null,
+    isAlive: true,
+    wikipediaTitle: 'Alex Zanardi',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Alex%20Zanardi%20(cropped).JPG?width=400'
+  },
+  {
+    id: 'dino-zoff',
+    name: 'Dino Zoff',
+    bornYear: 1942,
+    diedYear: null,
+    isAlive: true,
+    wikipediaTitle: 'Dino Zoff',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Dino%20Zoff%20-%201972%20-%20Juventus%20FC%20(cropped).jpg?width=400'
+  },
+  {
+    id: 'paola-perego',
+    name: 'Paola Perego',
+    bornYear: 1966,
+    diedYear: null,
+    isAlive: true,
+    wikipediaTitle: 'Paola Perego',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Paola%20Perego%20Vivi%20Casagiove%202015.png?width=400'
+  },
+  {
+    id: 'ricky-martin',
+    name: 'Ricky Martin',
+    bornYear: 1971,
+    diedYear: null,
+    isAlive: true,
+    wikipediaTitle: 'Ricky Martin',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Ricky%20Martin%20Golden%20Globe%20Awards%202018.jpg?width=400'
+  },
+  {
+    id: 'rita-pavone',
+    name: 'Rita Pavone',
+    bornYear: 1945,
+    diedYear: null,
+    isAlive: true,
+    wikipediaTitle: 'Rita Pavone',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Rita%20Pavone%2C%201963.jpg?width=400'
+  },
+  {
+    id: 'sven-goran-eriksson',
+    name: 'Sven-Göran Eriksson',
+    bornYear: 1948,
+    diedYear: 2024,
+    isAlive: false,
+    wikipediaTitle: 'Sven-Göran Eriksson',
+    imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Sven-Goran%20Eriksson%202012.jpg?width=400'
   }
 ];
