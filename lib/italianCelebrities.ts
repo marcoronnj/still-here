@@ -1850,8 +1850,8 @@ export const italianCelebrities: Celebrity[] = [
     id: 'alex-zanardi',
     name: 'Alex Zanardi',
     bornYear: 1966,
-    diedYear: null,
-    isAlive: true,
+    diedYear: 2026,
+    isAlive: false,
     wikipediaTitle: 'Alex Zanardi',
     imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Alex%20Zanardi%20(cropped).JPG?width=400'
   },
