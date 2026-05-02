@@ -1,10 +1,9 @@
-import { randomUUID } from "node:crypto";
-
 import { NextRequest, NextResponse } from "next/server";
 
-import { getRankedLeaderboard, saveLeaderboardEntry } from "@/lib/leaderboard";
+import { getLeaderboardSnapshot, saveLeaderboardEntry } from "@/lib/leaderboard";
 import {
   isGameMode,
+  normalizeNameForLookup,
   normalizePlayerName,
   parseGameMode,
   PLAYER_NAME_MAX_LENGTH,
@@ -20,15 +19,20 @@ function parseModeFromQuery(request: NextRequest): GameMode {
   return parseGameMode(request.nextUrl.searchParams.get("mode"));
 }
 
+function isValidPlayerId(value: unknown): value is string {
+  return typeof value === "string" && value.trim().length >= 8 && value.trim().length <= 100;
+}
+
 export async function GET(request: NextRequest) {
   try {
     const mode = parseModeFromQuery(request);
-    const results = await getRankedLeaderboard();
+    const playerId = request.nextUrl.searchParams.get("playerId");
+    const snapshot = await getLeaderboardSnapshot(playerId);
 
     return NextResponse.json({
       mode: "royal-rumble",
       requestedMode: mode,
-      results,
+      ...snapshot,
     });
   } catch (error) {
     const message =
@@ -41,13 +45,20 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = (await request.json()) as Partial<{
+      playerId: string;
       playerName: string;
       gameMode: GameMode;
       score: number;
       totalAnswered: number;
     }>;
 
+    if (!isValidPlayerId(body.playerId)) {
+      return NextResponse.json({ error: "playerId is required." }, { status: 400 });
+    }
+
+    const playerId = body.playerId.trim();
     const playerName = normalizePlayerName(body.playerName);
+    const normalizedName = normalizeNameForLookup(body.playerName);
     if (!isGameMode(body.gameMode)) {
       return NextResponse.json({ error: "gameMode must be classic or royal-rumble." }, { status: 400 });
     }
@@ -76,25 +87,36 @@ export async function POST(request: NextRequest) {
     }
 
     if (gameMode !== "royal-rumble") {
+      const snapshot = await getLeaderboardSnapshot(playerId);
+
       return NextResponse.json({
-        ignored: true,
+        saved: false,
+        isPersonalBest: false,
+        ...snapshot,
       });
     }
 
+    const now = new Date().toISOString();
     const result: ResultEntry = {
-      id: randomUUID(),
+      playerId,
       playerName,
+      normalizedName,
       score,
       totalAnswered,
-      createdAt: new Date().toISOString(),
+      createdAt: now,
+      updatedAt: now,
     };
 
     const savedEntry = await saveLeaderboardEntry(result);
+    const snapshot = await getLeaderboardSnapshot(playerId);
 
     return NextResponse.json({
-      ignored: false,
+      saved: savedEntry.saved,
+      isPersonalBest: savedEntry.isPersonalBest,
       entry: savedEntry.entry,
-      updated: savedEntry.updated,
+      currentPlayerBest: snapshot.currentPlayerBest,
+      currentPlayerRank: snapshot.currentPlayerRank,
+      top10: snapshot.top10,
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unable to save leaderboard entry.";

@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import type { GameMode, RankedResultEntry, ResultEntry } from "@/types/game";
 
 type EndScreenProps = {
+  playerId: string;
   playerName: string;
   mode: GameMode;
   score: number;
@@ -15,6 +16,7 @@ type EndScreenProps = {
 };
 
 export function EndScreen({
+  playerId,
   playerName,
   mode,
   score,
@@ -30,6 +32,8 @@ export function EndScreen({
   const [leaderboard, setLeaderboard] = useState<RankedResultEntry[]>([]);
   const [leaderboardError, setLeaderboardError] = useState<string | null>(null);
   const [loadingLeaderboard, setLoadingLeaderboard] = useState(!isClassic);
+  const [isPersonalBest, setIsPersonalBest] = useState(false);
+  const [currentPlayerRank, setCurrentPlayerRank] = useState<number | null>(null);
 
   useEffect(() => {
     if (isClassic) {
@@ -53,6 +57,7 @@ export function EndScreen({
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
+            playerId,
             playerName,
             gameMode: mode,
             score,
@@ -61,34 +66,24 @@ export function EndScreen({
         });
 
         const savePayload = (await saveResponse.json()) as {
-          ignored?: boolean;
+          saved?: boolean;
+          isPersonalBest?: boolean;
           entry?: ResultEntry;
-          updated?: boolean;
+          currentPlayerBest?: ResultEntry | null;
+          currentPlayerRank?: number | null;
+          top10?: RankedResultEntry[];
           error?: string;
         };
 
-        if (!saveResponse.ok || savePayload.ignored || !savePayload.entry) {
+        if (!saveResponse.ok || !savePayload.entry) {
           throw new Error(savePayload.error ?? "Unable to save your result.");
         }
 
         if (!cancelled) {
-          setSavedEntry(savePayload.entry);
-        }
-
-        const leaderboardResponse = await fetch(`/api/leaderboard?mode=${mode}`, {
-          cache: "no-store",
-        });
-        const leaderboardPayload = (await leaderboardResponse.json()) as {
-          results?: RankedResultEntry[];
-          error?: string;
-        };
-
-        if (!leaderboardResponse.ok || !Array.isArray(leaderboardPayload.results)) {
-          throw new Error(leaderboardPayload.error ?? "Unable to load the leaderboard.");
-        }
-
-        if (!cancelled) {
-          setLeaderboard(leaderboardPayload.results);
+          setSavedEntry(savePayload.currentPlayerBest ?? savePayload.entry);
+          setLeaderboard(savePayload.top10 ?? []);
+          setIsPersonalBest(Boolean(savePayload.isPersonalBest));
+          setCurrentPlayerRank(savePayload.currentPlayerRank ?? null);
         }
       } catch (error) {
         if (!cancelled) {
@@ -108,15 +103,15 @@ export function EndScreen({
     return () => {
       cancelled = true;
     };
-  }, [isClassic, mode, playerName, score, totalAnswered]);
+  }, [isClassic, mode, playerId, playerName, score, totalAnswered]);
 
-  const topFive = leaderboard.slice(0, 5);
+  const topTen = leaderboard;
   const currentPlayerEntry = useMemo(
-    () => (savedEntry ? leaderboard.find((entry) => entry.id === savedEntry.id) ?? null : null),
+    () => (savedEntry ? leaderboard.find((entry) => entry.playerId === savedEntry.playerId) ?? null : null),
     [leaderboard, savedEntry],
   );
   const personalBest = savedEntry?.score ?? null;
-  const showPersonalBest = !isClassic && personalBest !== null && personalBest !== score;
+  const showPersonalBest = !isClassic && personalBest !== null;
 
   return (
     <section className="rounded-[2rem] border border-line/80 bg-white p-8 text-center shadow-card sm:p-10">
@@ -148,6 +143,7 @@ export function EndScreen({
             {showPersonalBest ? (
               <p className="mt-3 text-sm text-muted">Personal best: {personalBest}</p>
             ) : null}
+            {isPersonalBest ? <p className="mt-2 text-sm font-semibold text-accent">New personal best</p> : null}
           </div>
 
           <div className="rounded-[1.5rem] border border-line/70 bg-slate-50/80 p-4">
@@ -167,12 +163,12 @@ export function EndScreen({
               <p className="mt-4 text-sm text-rose-600">{leaderboardError}</p>
             ) : (
               <div className="mt-4 space-y-2">
-                {topFive.map((entry) => {
-                  const isCurrentPlayer = entry.id === currentPlayerEntry?.id;
+                {topTen.map((entry) => {
+                  const isCurrentPlayer = entry.playerId === currentPlayerEntry?.playerId;
 
                   return (
                     <div
-                      key={entry.id}
+                      key={entry.playerId}
                       className={`flex items-center justify-between rounded-[1rem] border px-4 py-3 ${
                         isCurrentPlayer
                           ? "border-accent/60 bg-accent/10 shadow-[0_0_0_1px_rgba(14,165,233,0.15),0_10px_25px_rgba(14,165,233,0.08)]"
@@ -187,14 +183,14 @@ export function EndScreen({
                   );
                 })}
 
-                {currentPlayerEntry && currentPlayerEntry.rank > 5 ? (
+                {savedEntry && currentPlayerRank !== null && currentPlayerRank > 10 ? (
                   <>
                     <p className="px-2 text-center text-sm font-semibold tracking-[0.2em] text-muted">...</p>
                     <div className="flex items-center justify-between rounded-[1rem] border border-accent/60 bg-accent/10 px-4 py-3 shadow-[0_0_0_1px_rgba(14,165,233,0.15),0_10px_25px_rgba(14,165,233,0.08)]">
                       <p className="text-sm font-semibold text-ink">
-                        {currentPlayerEntry.rank}. {currentPlayerEntry.playerName}
+                        {currentPlayerRank}. {savedEntry.playerName}
                       </p>
-                      <p className="text-sm font-semibold text-ink">{currentPlayerEntry.score}</p>
+                      <p className="text-sm font-semibold text-ink">{savedEntry.score}</p>
                     </div>
                   </>
                 ) : null}

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 
 import { Leaderboard } from "@/components/Leaderboard";
 import {
+  PLAYER_ID_STORAGE_KEY,
   normalizePlayerName,
   PLAYER_NAME_MAX_LENGTH,
   PLAYER_NAME_STORAGE_KEY,
@@ -20,9 +21,14 @@ export function StartScreen() {
   useEffect(() => {
     try {
       const savedName = window.localStorage.getItem(PLAYER_NAME_STORAGE_KEY);
+      const savedPlayerId = window.localStorage.getItem(PLAYER_ID_STORAGE_KEY);
 
       if (savedName) {
         setPlayerName(normalizePlayerName(savedName));
+      }
+
+      if (!savedPlayerId) {
+        window.localStorage.setItem(PLAYER_ID_STORAGE_KEY, crypto.randomUUID());
       }
     } catch {}
   }, []);
@@ -40,11 +46,17 @@ export function StartScreen() {
 
     try {
       window.localStorage.setItem(PLAYER_NAME_STORAGE_KEY, normalizedName);
+      const currentPlayerId =
+        window.localStorage.getItem(PLAYER_ID_STORAGE_KEY) ?? crypto.randomUUID();
+      window.localStorage.setItem(PLAYER_ID_STORAGE_KEY, currentPlayerId);
+
+      router.push(
+        `/game?mode=${mode}&playerName=${encodeURIComponent(normalizedName)}&playerId=${encodeURIComponent(currentPlayerId)}`,
+      );
+      return;
     } catch {}
 
-    router.push(
-      `/game?mode=${mode}&playerName=${encodeURIComponent(normalizedName)}`,
-    );
+    router.push(`/game?mode=${mode}&playerName=${encodeURIComponent(normalizedName)}`);
   };
 
   if (showLeaderboard) {

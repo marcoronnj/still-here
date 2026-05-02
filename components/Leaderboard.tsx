@@ -26,16 +26,16 @@ export function Leaderboard({ onBack, onPlayNow }: LeaderboardProps) {
           cache: "no-store",
         });
         const payload = (await response.json()) as {
-          results?: RankedResultEntry[];
+          top10?: RankedResultEntry[];
           error?: string;
         };
 
-        if (!response.ok || !Array.isArray(payload.results)) {
+        if (!response.ok || !Array.isArray(payload.top10)) {
           throw new Error(payload.error ?? "Unable to load leaderboard.");
         }
 
         if (!cancelled) {
-          setResults(payload.results.slice(0, 10));
+          setResults(payload.top10);
         }
       } catch (caughtError) {
         if (!cancelled) {
@@ -87,7 +87,7 @@ export function Leaderboard({ onBack, onPlayNow }: LeaderboardProps) {
         <div className="mt-8 space-y-2 text-left">
           {results.map((entry) => (
             <div
-              key={entry.id}
+              key={entry.playerId}
               className="flex items-center justify-between rounded-[1.25rem] border border-line/70 bg-white px-4 py-4"
             >
               <p className="text-sm font-semibold text-ink">

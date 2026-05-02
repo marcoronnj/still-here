@@ -11,6 +11,7 @@ import { ResultPanel } from "@/components/ResultPanel";
 import { ScoreBar } from "@/components/ScoreBar";
 import { Celebrity, CelebrityRoundResult } from "@/types/celebrity";
 import {
+  PLAYER_ID_STORAGE_KEY,
   normalizePlayerName,
   PLAYER_NAME_STORAGE_KEY,
   type GameMode,
@@ -35,13 +36,16 @@ function shuffle<T>(items: T[]) {
 type GameScreenProps = {
   mode: GameMode;
   initialPlayerName?: string;
+  initialPlayerId?: string;
 };
 
-export function GameScreen({ mode, initialPlayerName = "" }: GameScreenProps) {
+export function GameScreen({ mode, initialPlayerName = "", initialPlayerId = "" }: GameScreenProps) {
   const router = useRouter();
   const isClassicMode = mode === "classic";
   const [playerName, setPlayerName] = useState(() => normalizePlayerName(initialPlayerName));
   const [playerNameReady, setPlayerNameReady] = useState(initialPlayerName.length > 0);
+  const [playerId, setPlayerId] = useState(initialPlayerId);
+  const [playerIdentityReady, setPlayerIdentityReady] = useState(Boolean(initialPlayerId));
   const [deck, setDeck] = useState<Celebrity[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [score, setScore] = useState(0);
@@ -95,6 +99,30 @@ export function GameScreen({ mode, initialPlayerName = "" }: GameScreenProps) {
       setPlayerNameReady(true);
     }
   }, [initialPlayerName]);
+
+  useEffect(() => {
+    if (initialPlayerId) {
+      setPlayerId(initialPlayerId);
+      setPlayerIdentityReady(true);
+
+      try {
+        window.localStorage.setItem(PLAYER_ID_STORAGE_KEY, initialPlayerId);
+      } catch {}
+
+      return;
+    }
+
+    try {
+      const savedPlayerId = window.localStorage.getItem(PLAYER_ID_STORAGE_KEY);
+      const ensuredPlayerId = savedPlayerId && savedPlayerId.trim() ? savedPlayerId : crypto.randomUUID();
+      window.localStorage.setItem(PLAYER_ID_STORAGE_KEY, ensuredPlayerId);
+      setPlayerId(ensuredPlayerId);
+      setPlayerIdentityReady(true);
+    } catch {
+      setPlayerId(crypto.randomUUID());
+      setPlayerIdentityReady(true);
+    }
+  }, [initialPlayerId]);
 
   const resetDrag = useCallback((): void => {
     setDragX(0);
@@ -197,12 +225,12 @@ export function GameScreen({ mode, initialPlayerName = "" }: GameScreenProps) {
   }, [isClassicMode, resetDrag]);
 
   useEffect(() => {
-    if (!playerNameReady || !playerName) {
+    if (!playerNameReady || !playerIdentityReady || !playerName || !playerId) {
       return;
     }
 
     void loadGame();
-  }, [loadGame, playerName, playerNameReady]);
+  }, [loadGame, playerId, playerIdentityReady, playerName, playerNameReady]);
 
   useEffect(() => {
     const markReady = (celebrityId: string) => {
@@ -481,7 +509,7 @@ export function GameScreen({ mode, initialPlayerName = "" }: GameScreenProps) {
           ←
         </button>
       </div>
-      {!playerNameReady ? (
+      {!playerNameReady || !playerIdentityReady ? (
         <div className="flex flex-1 items-center justify-center">
           <section className="w-full rounded-[2rem] border border-white/10 bg-white/5 p-8 text-center shadow-[0_20px_80px_rgba(2,6,23,0.35)] backdrop-blur">
             <div className="mx-auto h-12 w-12 animate-spin rounded-full border-4 border-white/15 border-t-emerald-400" />
@@ -543,6 +571,7 @@ export function GameScreen({ mode, initialPlayerName = "" }: GameScreenProps) {
 
         {!loading && !error && gameComplete ? (
           <EndScreen
+            playerId={playerId}
             playerName={playerName}
             mode={mode}
             score={score}
