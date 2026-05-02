@@ -41,7 +41,49 @@ async function createRedisAdapter(): Promise<RedisAdapter | null> {
       },
     };
   } catch {
-    return null;
+    const restUrl = process.env.UPSTASH_REDIS_REST_URL;
+    const restToken = process.env.UPSTASH_REDIS_REST_TOKEN;
+
+    if (!restUrl || !restToken) {
+      return null;
+    }
+
+    return {
+      async get<T>(key: string) {
+        const response = await fetch(`${restUrl}/get/${encodeURIComponent(key)}`, {
+          method: "GET",
+          cache: "no-store",
+          headers: {
+            Authorization: `Bearer ${restToken}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`Upstash REST get failed with status ${response.status}.`);
+        }
+
+        const payload = (await response.json()) as {
+          result?: T | null;
+        };
+
+        return payload.result ?? null;
+      },
+      async set<T>(key: string, value: T) {
+        const response = await fetch(`${restUrl}/set/${encodeURIComponent(key)}`, {
+          method: "POST",
+          cache: "no-store",
+          headers: {
+            Authorization: `Bearer ${restToken}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(value),
+        });
+
+        if (!response.ok) {
+          throw new Error(`Upstash REST set failed with status ${response.status}.`);
+        }
+      },
+    };
   }
 }
 
@@ -65,6 +107,7 @@ async function writeEntries(entries: ResultEntry[]): Promise<void> {
 
   // Local dev fallback only. This is not persistent and will not survive
   // Vercel serverless cold starts or multiple instances.
+  console.warn("Leaderboard store is using in-memory fallback. Upstash Redis is not configured.");
   inMemoryStore = entries;
 }
 

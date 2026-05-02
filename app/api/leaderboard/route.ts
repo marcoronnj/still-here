@@ -47,10 +47,12 @@ export async function POST(request: NextRequest) {
     const body = (await request.json()) as Partial<{
       playerId: string;
       playerName: string;
+      mode: GameMode;
       gameMode: GameMode;
       score: number;
       totalAnswered: number;
     }>;
+    console.log("POST leaderboard received", body);
 
     if (!isValidPlayerId(body.playerId)) {
       return NextResponse.json({ error: "playerId is required." }, { status: 400 });
@@ -59,11 +61,13 @@ export async function POST(request: NextRequest) {
     const playerId = body.playerId.trim();
     const playerName = normalizePlayerName(body.playerName);
     const normalizedName = normalizeNameForLookup(body.playerName);
-    if (!isGameMode(body.gameMode)) {
+    const submittedMode = body.gameMode ?? body.mode;
+
+    if (!isGameMode(submittedMode)) {
       return NextResponse.json({ error: "gameMode must be classic or royal-rumble." }, { status: 400 });
     }
 
-    const gameMode = body.gameMode;
+    const gameMode = submittedMode;
     const score = body.score;
     const totalAnswered = body.totalAnswered;
 
@@ -109,6 +113,13 @@ export async function POST(request: NextRequest) {
 
     const savedEntry = await saveLeaderboardEntry(result);
     const snapshot = await getLeaderboardSnapshot(playerId);
+    console.log("leaderboard saved", {
+      saved: savedEntry.saved,
+      isPersonalBest: savedEntry.isPersonalBest,
+      playerId,
+      currentPlayerRank: snapshot.currentPlayerRank,
+      top10Count: snapshot.top10.length,
+    });
 
     return NextResponse.json({
       saved: savedEntry.saved,
@@ -120,6 +131,7 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unable to save leaderboard entry.";
+    console.error("leaderboard save failed", error);
 
     return NextResponse.json({ error: message }, { status: 500 });
   }

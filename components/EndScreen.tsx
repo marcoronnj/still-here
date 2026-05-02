@@ -51,18 +51,29 @@ export function EndScreen({
       setLeaderboardError(null);
 
       try {
+        if (!playerId) {
+          throw new Error("Missing playerId for Royal Rumble save.");
+        }
+
+        if (!playerName) {
+          throw new Error("Missing playerName for Royal Rumble save.");
+        }
+
+        const payload = {
+          playerId,
+          playerName,
+          gameMode: "royal-rumble" as const,
+          score,
+          totalAnswered,
+        };
+        console.log("saving royal rumble score", payload);
+
         const saveResponse = await fetch("/api/leaderboard", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            playerId,
-            playerName,
-            gameMode: mode,
-            score,
-            totalAnswered,
-          }),
+          body: JSON.stringify(payload),
         });
 
         const savePayload = (await saveResponse.json()) as {
