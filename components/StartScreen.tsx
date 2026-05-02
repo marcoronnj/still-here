@@ -14,12 +14,22 @@ export function StartScreen() {
           Guess whether each famous person is alive or dead in a fast, 10-round swipe-style
           game.
         </p>
-        <Link
-          href="/game"
-          className="mt-8 inline-flex min-h-14 items-center justify-center rounded-full bg-ink px-8 text-base font-semibold text-white transition hover:scale-[1.02] hover:bg-accent focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
-        >
-          Play
-        </Link>
+        <div className="mt-8 grid gap-3 text-left">
+          <Link
+            href="/game?mode=classic"
+            className="rounded-[1.5rem] bg-ink px-6 py-5 text-white transition hover:scale-[1.02] hover:bg-accent focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
+          >
+            <span className="block text-lg font-semibold">Classic</span>
+            <span className="mt-1 block text-sm text-white/75">10 questions. Final score after round 10.</span>
+          </Link>
+          <Link
+            href="/game?mode=royal-rumble"
+            className="rounded-[1.5rem] border border-line/80 bg-white px-6 py-5 text-ink transition hover:scale-[1.02] hover:border-accent/50 hover:bg-accent/5 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
+          >
+            <span className="block text-lg font-semibold">Royal Rumble</span>
+            <span className="mt-1 block text-sm text-muted">Keep going until your first mistake.</span>
+          </Link>
+        </div>
       </section>
     </main>
   );

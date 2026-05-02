@@ -1,14 +1,18 @@
+import type { GameMode } from "@/types/game";
+
 type ScoreBarProps = {
+  mode: GameMode;
   score: number;
   answered: number;
   streak: number;
-  totalRounds: number;
+  totalRounds?: number;
   roundTimeLeftMs: number;
   roundDurationMs: number;
   showTimer: boolean;
 };
 
 export function ScoreBar({
+  mode,
   score,
   answered,
   streak,
@@ -17,13 +21,17 @@ export function ScoreBar({
   roundDurationMs,
   showTimer,
 }: ScoreBarProps) {
-  const progress = Math.min((answered / totalRounds) * 100, 100);
+  const isClassic = mode === "classic";
+  const progress =
+    isClassic && totalRounds ? Math.min((answered / totalRounds) * 100, 100) : Math.min(streak * 12, 100);
   const roundProgress = Math.max((roundTimeLeftMs / roundDurationMs) * 100, 0);
   const secondsLeft = Math.max(Math.ceil(roundTimeLeftMs / 1000), 0);
   const stats = [
     { label: "Score", value: score },
     { label: "Streak", value: streak },
-    { label: "Round", value: `${Math.min(answered + 1, totalRounds)}/${totalRounds}` },
+    isClassic
+      ? { label: "Round", value: `${Math.min(answered + 1, totalRounds ?? 0)}/${totalRounds}` }
+      : { label: "Mode", value: "Rumble" },
   ];
 
   return (

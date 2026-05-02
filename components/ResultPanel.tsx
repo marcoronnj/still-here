@@ -2,9 +2,10 @@ import { CelebrityRoundResult } from "@/types/celebrity";
 
 type ResultPanelProps = {
   result: CelebrityRoundResult;
+  nextStepLabel?: string;
 };
 
-export function ResultPanel({ result }: ResultPanelProps) {
+export function ResultPanel({ result, nextStepLabel = "Moving on..." }: ResultPanelProps) {
   const { celebrity, guessedAlive, isCorrect } = result;
   const answerLabel = celebrity.isAlive ? "Here" : "Gone";
   const guessedLabel = guessedAlive ? "Here" : "Gone";
@@ -38,9 +39,7 @@ export function ResultPanel({ result }: ResultPanelProps) {
           You said <strong>{guessedLabel}</strong>. The correct answer is{" "}
           <strong>{answerLabel}</strong>.
         </p>
-        <p className="mt-8 text-sm uppercase tracking-[0.24em] text-white/60">
-          Moving on...
-        </p>
+        <p className="mt-8 text-sm uppercase tracking-[0.24em] text-white/60">{nextStepLabel}</p>
       </div>
     </section>
   );
