@@ -2,13 +2,18 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { PointerEvent as ReactPointerEvent } from "react";
+import Link from "next/link";
 
 import { CelebrityCard } from "@/components/CelebrityCard";
 import { EndScreen } from "@/components/EndScreen";
 import { ResultPanel } from "@/components/ResultPanel";
 import { ScoreBar } from "@/components/ScoreBar";
 import { Celebrity, CelebrityRoundResult } from "@/types/celebrity";
-import type { GameMode } from "@/types/game";
+import {
+  normalizePlayerName,
+  PLAYER_NAME_STORAGE_KEY,
+  type GameMode,
+} from "@/types/game";
 
 const TOTAL_ROUNDS = 10;
 const SWIPE_THRESHOLD = 110;
@@ -28,10 +33,13 @@ function shuffle<T>(items: T[]) {
 
 type GameScreenProps = {
   mode: GameMode;
+  initialPlayerName?: string;
 };
 
-export function GameScreen({ mode }: GameScreenProps) {
+export function GameScreen({ mode, initialPlayerName = "" }: GameScreenProps) {
   const isClassicMode = mode === "classic";
+  const [playerName, setPlayerName] = useState(() => normalizePlayerName(initialPlayerName));
+  const [playerNameReady, setPlayerNameReady] = useState(initialPlayerName.length > 0);
   const [deck, setDeck] = useState<Celebrity[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [score, setScore] = useState(0);
@@ -62,6 +70,29 @@ export function GameScreen({ mode }: GameScreenProps) {
     : false;
   const showRoundTimer =
     !loading && !error && !gameComplete && !roundResult && Boolean(currentCelebrity) && currentCardReady;
+
+  useEffect(() => {
+    const normalizedInitialName = normalizePlayerName(initialPlayerName);
+
+    if (normalizedInitialName) {
+      setPlayerName(normalizedInitialName);
+      setPlayerNameReady(true);
+
+      try {
+        window.localStorage.setItem(PLAYER_NAME_STORAGE_KEY, normalizedInitialName);
+      } catch {}
+
+      return;
+    }
+
+    try {
+      const savedName = normalizePlayerName(window.localStorage.getItem(PLAYER_NAME_STORAGE_KEY));
+      setPlayerName(savedName);
+      setPlayerNameReady(true);
+    } catch {
+      setPlayerNameReady(true);
+    }
+  }, [initialPlayerName]);
 
   const resetDrag = useCallback((): void => {
     setDragX(0);
@@ -124,8 +155,12 @@ export function GameScreen({ mode }: GameScreenProps) {
   }, [isClassicMode, resetDrag]);
 
   useEffect(() => {
+    if (!playerNameReady || !playerName) {
+      return;
+    }
+
     void loadGame();
-  }, [loadGame]);
+  }, [loadGame, playerName, playerNameReady]);
 
   useEffect(() => {
     const markReady = (celebrityId: string) => {
@@ -394,6 +429,31 @@ export function GameScreen({ mode }: GameScreenProps) {
 
   return (
     <main className="mx-auto flex min-h-[100dvh] w-full max-w-2xl flex-col overflow-hidden px-4 py-3 text-white sm:px-6 sm:py-4">
+      {!playerNameReady ? (
+        <div className="flex flex-1 items-center justify-center">
+          <section className="w-full rounded-[2rem] border border-white/10 bg-white/5 p-8 text-center shadow-[0_20px_80px_rgba(2,6,23,0.35)] backdrop-blur">
+            <div className="mx-auto h-12 w-12 animate-spin rounded-full border-4 border-white/15 border-t-emerald-400" />
+            <p className="mt-5 text-base text-white/65">Loading player profile...</p>
+          </section>
+        </div>
+      ) : !playerName ? (
+        <div className="flex flex-1 items-center justify-center">
+          <section className="w-full rounded-[2rem] border border-white/10 bg-white/5 p-8 text-center shadow-[0_20px_80px_rgba(2,6,23,0.35)] backdrop-blur">
+            <p className="text-sm font-medium uppercase tracking-[0.25em] text-emerald-200/80">Still Here?</p>
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight text-white">Name required</h2>
+            <p className="mt-4 text-base leading-7 text-white/65">
+              Enter your player name on the start screen before starting a run.
+            </p>
+            <Link
+              href="/"
+              className="mt-8 inline-flex min-h-14 items-center justify-center rounded-full border border-emerald-400/30 bg-emerald-500/15 px-8 text-base font-semibold text-emerald-100 transition hover:scale-[1.02] hover:bg-emerald-500/22 focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:ring-offset-2 focus:ring-offset-slate-950"
+            >
+              Back to start
+            </Link>
+          </section>
+        </div>
+      ) : (
+        <>
       <div className="mb-3">
         <ScoreBar
           mode={mode}
@@ -431,8 +491,10 @@ export function GameScreen({ mode }: GameScreenProps) {
 
         {!loading && !error && gameComplete ? (
           <EndScreen
+            playerName={playerName}
             mode={mode}
             score={score}
+            totalAnswered={answered}
             totalRounds={isClassicMode ? TOTAL_ROUNDS : undefined}
             clearedDeck={gameOverReason === "cleared-deck"}
             onRestart={() => void loadGame()}
@@ -506,6 +568,8 @@ export function GameScreen({ mode }: GameScreenProps) {
           }
         />
       ) : null}
+        </>
+      )}
     </main>
   );
 }
