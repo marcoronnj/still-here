@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
+import { Leaderboard } from "@/components/Leaderboard";
 import {
   normalizePlayerName,
   PLAYER_NAME_MAX_LENGTH,
@@ -14,6 +15,7 @@ export function StartScreen() {
   const router = useRouter();
   const [playerName, setPlayerName] = useState("");
   const [nameTouched, setNameTouched] = useState(false);
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
 
   useEffect(() => {
     try {
@@ -44,6 +46,17 @@ export function StartScreen() {
       `/game?mode=${mode}&playerName=${encodeURIComponent(normalizedName)}`,
     );
   };
+
+  if (showLeaderboard) {
+    return (
+      <main className="flex min-h-screen items-center justify-center px-5 py-10">
+        <Leaderboard
+          onBack={() => setShowLeaderboard(false)}
+          onPlayNow={() => handleStart("royal-rumble")}
+        />
+      </main>
+    );
+  }
 
   return (
     <main className="flex min-h-screen items-center justify-center px-5 py-10">
@@ -101,6 +114,13 @@ export function StartScreen() {
             <span className="mt-1 block text-sm text-muted">Keep going until your first mistake.</span>
           </button>
         </div>
+        <button
+          type="button"
+          onClick={() => setShowLeaderboard(true)}
+          className="mt-4 inline-flex min-h-12 items-center justify-center rounded-full border border-line/80 bg-white/70 px-6 text-sm font-semibold text-ink transition hover:border-accent/50 hover:bg-accent/5 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2"
+        >
+          View leaderboard
+        </button>
       </section>
     </main>
   );
