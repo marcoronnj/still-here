@@ -1751,8 +1751,8 @@ export const italianCelebrities: Celebrity[] = [
     id: 'evaristo-beccalossi',
     name: 'Evaristo Beccalossi',
     bornYear: 1956,
-    diedYear: null,
-    isAlive: true,
+    diedYear: 2026,
+    isAlive: false,
     wikipediaTitle: 'Evaristo Beccalossi',
     imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Evaristo%20Beccalossi%20(2016).jpg?width=400'
   },
