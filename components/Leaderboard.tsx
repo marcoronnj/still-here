@@ -87,7 +87,7 @@ export function Leaderboard({ onBack, onPlayNow }: LeaderboardProps) {
         <div className="mt-8 space-y-2 text-left">
           {results.map((entry) => (
             <div
-              key={entry.playerId}
+              key={entry.normalizedName}
               className="flex items-center justify-between rounded-[1.25rem] border border-line/70 bg-white px-4 py-4"
             >
               <p className="text-sm font-semibold text-ink">

@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 
-import type { GameMode, RankedResultEntry, ResultEntry } from "@/types/game";
+import { normalizeNameForLookup, type GameMode, type RankedResultEntry, type ResultEntry } from "@/types/game";
 
 type LeaderboardSaveResponse = {
   saved?: boolean;
@@ -150,9 +150,10 @@ export function EndScreen({
   }, [isClassic, playerId, playerName, runId, score, totalAnswered]);
 
   const topTen = leaderboard;
+  const currentNormalizedName = normalizeNameForLookup(playerName);
   const currentPlayerEntry = useMemo(
-    () => leaderboard.find((entry) => entry.playerId === playerId) ?? null,
-    [leaderboard, playerId],
+    () => leaderboard.find((entry) => entry.normalizedName === currentNormalizedName) ?? null,
+    [currentNormalizedName, leaderboard],
   );
   const personalBest = savedEntry?.score ?? null;
   const showPersonalBest = !isClassic && personalBest !== null;
@@ -208,11 +209,11 @@ export function EndScreen({
             ) : (
               <div className="mt-4 space-y-2">
                 {topTen.map((entry) => {
-                  const isCurrentPlayer = entry.playerId === playerId;
+                  const isCurrentPlayer = entry.normalizedName === currentNormalizedName;
 
                   return (
                     <div
-                      key={entry.playerId}
+                      key={entry.normalizedName}
                       className={`flex items-center justify-between rounded-[1rem] border px-4 py-3 ${
                         isCurrentPlayer
                           ? "border-accent/60 bg-accent/10 shadow-[0_0_0_1px_rgba(14,165,233,0.15),0_10px_25px_rgba(14,165,233,0.08)]"

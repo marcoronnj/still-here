@@ -1,5 +1,6 @@
 import "server-only";
 
+import { normalizeNameForLookup } from "@/types/game";
 import type { LeaderboardSnapshot, RankedResultEntry, ResultEntry } from "@/types/game";
 
 const MAX_ENTRIES = 200;
@@ -161,23 +162,107 @@ function rankEntries(entries: ResultEntry[]): RankedResultEntry[] {
     }));
 }
 
+function getNormalizedName(entry: ResultEntry): string {
+  return entry.normalizedName || normalizeNameForLookup(entry.playerName);
+}
+
+function isPreferredEntry(candidate: ResultEntry, current: ResultEntry): boolean {
+  if (candidate.score !== current.score) {
+    return candidate.score > current.score;
+  }
+
+  if (candidate.totalAnswered !== current.totalAnswered) {
+    return candidate.totalAnswered > current.totalAnswered;
+  }
+
+  return candidate.updatedAt > current.updatedAt;
+}
+
+function normalizeEntryIdentity(entry: ResultEntry): ResultEntry {
+  const normalizedName = getNormalizedName(entry);
+
+  return entry.normalizedName === normalizedName ? entry : { ...entry, normalizedName };
+}
+
+function toStoredEntry(entry: RankedResultEntry): ResultEntry {
+  return {
+    playerId: entry.playerId,
+    playerName: entry.playerName,
+    normalizedName: entry.normalizedName,
+    score: entry.score,
+    totalAnswered: entry.totalAnswered,
+    createdAt: entry.createdAt,
+    updatedAt: entry.updatedAt,
+  };
+}
+
+function collapseEntriesByName(entries: ResultEntry[]): {
+  entries: ResultEntry[];
+  changed: boolean;
+} {
+  const entriesByName = new Map<string, ResultEntry>();
+  let changed = false;
+
+  for (const rawEntry of entries) {
+    const entry = normalizeEntryIdentity(rawEntry);
+    const normalizedName = getNormalizedName(entry);
+
+    if (!normalizedName) {
+      changed = true;
+      continue;
+    }
+
+    if (entry !== rawEntry) {
+      changed = true;
+    }
+
+    const existingEntry = entriesByName.get(normalizedName);
+
+    if (!existingEntry) {
+      entriesByName.set(normalizedName, entry);
+      continue;
+    }
+
+    changed = true;
+
+    if (isPreferredEntry(entry, existingEntry)) {
+      entriesByName.set(normalizedName, entry);
+    }
+  }
+
+  const collapsedEntries = rankEntries([...entriesByName.values()])
+    .slice(0, MAX_ENTRIES)
+    .map(toStoredEntry);
+
+  if (collapsedEntries.length !== entries.length) {
+    changed = true;
+  }
+
+  return {
+    entries: collapsedEntries,
+    changed,
+  };
+}
+
 export async function saveLeaderboardEntry(entry: ResultEntry): Promise<{
   entry: ResultEntry;
   saved: boolean;
   isPersonalBest: boolean;
   debug: LeaderboardDebugInfo;
 }> {
-  const { entries: currentEntries, storage } = await readEntries();
-  const existingIndex = currentEntries.findIndex(
-    (currentEntry) => currentEntry.playerId === entry.playerId,
+  const { entries: currentEntries } = await readEntries();
+  const { entries: cleanedEntries } = collapseEntriesByName(currentEntries);
+  const normalizedEntry = normalizeEntryIdentity(entry);
+  const existingIndex = cleanedEntries.findIndex(
+    (currentEntry) => getNormalizedName(currentEntry) === normalizedEntry.normalizedName,
   );
 
   if (existingIndex === -1) {
-    const nextEntries = [entry, ...currentEntries].slice(0, MAX_ENTRIES);
+    const nextEntries = [normalizedEntry, ...cleanedEntries].slice(0, MAX_ENTRIES);
     const savedStorage = await writeEntries(nextEntries);
 
     return {
-      entry,
+      entry: normalizedEntry,
       saved: true,
       isPersonalBest: true,
       debug: {
@@ -188,12 +273,12 @@ export async function saveLeaderboardEntry(entry: ResultEntry): Promise<{
     };
   }
 
-  const existingEntry = currentEntries[existingIndex];
+  const existingEntry = cleanedEntries[existingIndex];
 
   if (entry.score > existingEntry.score) {
-    const nextEntries = [...currentEntries];
+    const nextEntries = [...cleanedEntries];
     nextEntries[existingIndex] = {
-      ...entry,
+      ...normalizedEntry,
       createdAt: existingEntry.createdAt,
     };
     const trimmedEntries = nextEntries.slice(0, MAX_ENTRIES);
@@ -211,14 +296,16 @@ export async function saveLeaderboardEntry(entry: ResultEntry): Promise<{
     };
   }
 
+  const savedStorage = await writeEntries(cleanedEntries);
+
   return {
     entry: existingEntry,
     saved: false,
     isPersonalBest: false,
     debug: {
-      storage,
+      storage: savedStorage,
       key: LEADERBOARD_STORAGE_KEY,
-      count: currentEntries.length,
+      count: cleanedEntries.length,
     },
   };
 }
@@ -227,24 +314,27 @@ export async function getRankedLeaderboard(): Promise<{
   entries: RankedResultEntry[];
   debug: LeaderboardDebugInfo;
 }> {
-  const { entries, storage } = await readEntries();
+  const { entries } = await readEntries();
+  const { entries: cleanedEntries } = collapseEntriesByName(entries);
+  const savedStorage = await writeEntries(cleanedEntries);
 
   return {
-    entries: rankEntries(entries),
+    entries: rankEntries(cleanedEntries),
     debug: {
-      storage,
+      storage: savedStorage,
       key: LEADERBOARD_STORAGE_KEY,
-      count: entries.length,
+      count: cleanedEntries.length,
     },
   };
 }
 
-export async function getLeaderboardSnapshot(playerId?: string | null): Promise<
+export async function getLeaderboardSnapshot(playerName?: string | null): Promise<
   LeaderboardSnapshot & LeaderboardDebugInfo
 > {
   const { entries: rankedEntries, debug } = await getRankedLeaderboard();
-  const currentPlayerEntry = playerId
-    ? rankedEntries.find((entry) => entry.playerId === playerId) ?? null
+  const normalizedName = normalizeNameForLookup(playerName);
+  const currentPlayerEntry = normalizedName
+    ? rankedEntries.find((entry) => getNormalizedName(entry) === normalizedName) ?? null
     : null;
 
   return {

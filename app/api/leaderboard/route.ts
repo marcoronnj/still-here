@@ -19,15 +19,11 @@ function parseModeFromQuery(request: NextRequest): GameMode {
   return parseGameMode(request.nextUrl.searchParams.get("mode"));
 }
 
-function isValidPlayerId(value: unknown): value is string {
-  return typeof value === "string" && value.trim().length >= 8 && value.trim().length <= 100;
-}
-
 export async function GET(request: NextRequest) {
   try {
     const mode = parseModeFromQuery(request);
-    const playerId = request.nextUrl.searchParams.get("playerId");
-    const snapshot = await getLeaderboardSnapshot(playerId);
+    const playerName = request.nextUrl.searchParams.get("playerName");
+    const snapshot = await getLeaderboardSnapshot(playerName);
 
     return NextResponse.json({
       mode: "royal-rumble",
@@ -54,17 +50,13 @@ export async function POST(request: NextRequest) {
     }>;
     console.log("POST leaderboard received", body);
 
-    if (!isValidPlayerId(body.playerId)) {
-      return NextResponse.json({ error: "playerId is required." }, { status: 400 });
-    }
-
-    const playerId = body.playerId.trim();
+    const playerId = typeof body.playerId === "string" ? body.playerId.trim() : "";
     const playerName = normalizePlayerName(body.playerName);
     const normalizedName = normalizeNameForLookup(body.playerName);
-    const submittedMode = body.gameMode ?? body.mode;
+    const submittedMode = body.gameMode;
 
     if (!isGameMode(submittedMode)) {
-      return NextResponse.json({ error: "gameMode must be classic or royal-rumble." }, { status: 400 });
+      return NextResponse.json({ error: "gameMode must be royal-rumble." }, { status: 400 });
     }
 
     const gameMode = submittedMode;
@@ -91,13 +83,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (gameMode !== "royal-rumble") {
-      const snapshot = await getLeaderboardSnapshot(playerId);
-
-      return NextResponse.json({
-        saved: false,
-        isPersonalBest: false,
-        ...snapshot,
-      });
+      return NextResponse.json({ error: "gameMode must be royal-rumble." }, { status: 400 });
     }
 
     const now = new Date().toISOString();
@@ -112,7 +98,7 @@ export async function POST(request: NextRequest) {
     };
 
     const savedEntry = await saveLeaderboardEntry(result);
-    const snapshot = await getLeaderboardSnapshot(playerId);
+    const snapshot = await getLeaderboardSnapshot(playerName);
     console.log("leaderboard saved", {
       saved: savedEntry.saved,
       isPersonalBest: savedEntry.isPersonalBest,
